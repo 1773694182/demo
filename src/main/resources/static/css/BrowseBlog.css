@@ -1,0 +1,93 @@
+.portrait{
+    text-align: center;
+}
+.blog_userinfo{
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+    margin-top: 5%;
+    margin-left: 20px;
+    border: solid 1px #a2a2a2;
+    padding-left: 10px;
+    padding-bottom: 20px;
+}
+.blog_info{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    width: 50%;
+    border: solid 1px #a2a2a2;
+    padding-left: 10px;
+    padding-bottom: 20px;
+}
+.blog_intro{
+    width: 100%;
+}
+.info{
+    margin-top: 3%;
+}
+.info div{
+    display: inline-block;
+    margin-top: 5px;
+}
+.number{
+    margin-right: 20px;
+}
+.user_number{
+    text-align: center;
+    display: inline-block;
+    width: 25%;
+    margin-top: 5px;
+    margin-right: 20px;
+}
+
+.comment-blog{
+    width: 90%;
+}
+.comment-blog>.comment-input{
+    margin-left: 40px;
+    width: 90%;
+    display: inline;
+}
+
+.replay_textarea>.replay-input:focus{
+    display: inline;
+}
+.sort{
+    margin-right: 20px;
+}
+.replay{
+    padding-left: 30px;
+}
+.view-comment{
+    margin-top: 5px;
+}
+.comment{
+    padding-top: 3px;
+}
+.comment a{
+    text-decoration: none;
+}
+.comment button{
+    background-color: white;
+    border: none;
+    color: blue;
+    font-size: 15px;
+}
+.comment-blog button{
+    background-color: white;
+    border: none;
+    color: blue;
+    font-size: 15px;
+}
+textarea.form-control{
+    height: 34px;
+}
+#replay_content{
+    margin-top: 3px;
+    height: 30px;
+    margin-bottom: 3px;
+}
+.name:hover{
+    color: red;
+}

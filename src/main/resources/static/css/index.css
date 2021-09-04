@@ -1,0 +1,33 @@
+.blog{
+    margin-left: 10%;
+    border: black;
+}
+.blog_all{
+    background-color: white;
+    border: black;
+    margin-top: 2px;
+}
+
+.classification label{
+    margin-top: 15px;
+}
+.classification2{
+    margin-top: 20px;
+}
+.get_label{
+    margin-top: 20px;
+}
+.blog_button{
+    background-color: white;
+    border: none;
+}
+.blog_button:hover{
+    color: blue;
+}
+.user_button{
+    background-color: white;
+    border: none;
+}
+.user_button:hover{
+    color: red;
+}

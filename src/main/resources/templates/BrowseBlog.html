@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/BrowseBlog.js}"></script>
+    <script th:src="@{/js/BrowseBlogFun.js}"></script>
+    <script th:src="@{/js/layer/layer.js}"></script>
+    <script th:src="@{/js/AutomaticLogon.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/BrowseBlog.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+</head>
+<body>
+<div th:replace="~{common::user_fun}"></div>
+<!--    userinfo-->
+    <div class="blog_userinfo">
+ <!--       <div class="portrait"><img th:src=""></div>-->
+        <div class="portrait" th:text="${user_info.name}"></div>
+        <div class="user_number">
+            <label for="fans">5</label>
+            <div id="fans">粉丝</div>
+        </div>
+
+        <div class="user_number">
+            <label for="like">6</label>
+            <div id="like">获赞</div>
+        </div>
+
+        <div class="user_number">
+            <label for="collect">7</label>
+            <div id="collect">收藏</div>
+        </div>
+
+        <div class="user_number">
+            <label for="replay">7</label>
+            <div id="replay">评论</div>
+        </div>
+
+        <div class="user_number">
+            <label for="view">9</label>
+            <div id="view">访问</div>
+        </div>
+
+        <div class="user_number">
+            <label for="content">8</label>
+            <div id="content">文章</div>
+        </div>
+
+    </div>
+<!--    content-->
+    <div class="blog_info" th:each="blog:${blog_info}">
+        <div class="info">
+
+            <h1 th:text="${blog.title}">title</h1>
+
+<!--                文章信息-->
+            <div class="blog_intro">
+                <div class="blog_user number"><span th:text="${user_info.name}"></span></div>
+                <div class="blog_date number"><span>发布日期:</span><span id="date" th:text="${blog.date}"></span></div>
+                <div class="view number"><span>浏览数:</span><span id="view_number" th:text="${blog.view_number}"></span></div>
+                <div class="like number"><span>点赞数:</span><span id="like_number" th:text="${blog.like_number}"></span></div>
+                <div class="collection number"><span>收藏数:</span><span id="collection_number" th:text="${blog.collection_number}"></span></div>
+            </div>
+<!--            标签、分类-->
+            <div class="blog_intro">
+                <div class="sort"><span>分类:</span><span th:text="${blog.classification}"></span></div>
+                <div class="sort"><span>标签:</span><span th:text="${blog.label}"></span></div>
+            </div>
+        </div>
+
+        <div>
+            <span th:utext="${blog.content}"></span>
+        </div>
+<!--        评论-->
+        <div class="info">
+            <div>
+                <div class="like number"><button type="button" onclick="like()"><img th:src="@{/image/dianzan.png}" width="16px"  height="16px"></button><span>点赞数:</span><span id="like_number2" th:text="${blog.like_number}"></span></div>
+                <div class="collection number"><button type="button" onclick="collection()"><img th:src="@{/image/shoucang.png}" width="16px"  height="16px"></button><span>收藏数:</span><span id="collection_number2" th:text="${blog.collection_number}"></span></div>
+                <div class="comment number"><img th:src="@{/image/pinglun.png}" width="16px"  height="16x"><span>评论数:</span><span id="comment_number" th:text="${blog.comment_number}"></span></div>
+            </div>
+        </div>
+        <div class="comment-blog" th:each="blog:${blog_info}">
+            <form id="comment_form">
+                <input name="user_id" value="1" hidden="hidden">
+                <input id="blog_id" name="blog_id" th:value="${blog.blog_id}" hidden="hidden">
+                <label style="float: left;text-align: center;line-height: 34px">评论</label>
+                <textarea name="content" id="comment_blog_textarea" class="comment-input form-control" onfocus="create_button('comment_form')"></textarea>
+            </form>
+        </div>
+        <div class="view-comment" id="view-comment">
+            <div class="comment" th:each="commentlist:${blog_replay}">
+                <div th:each="comment:${commentlist.comment}">
+                    <form tabindex="1" th:id="${'comment_form'+comment.comment_id}">
+                        <input name="user_id" th:value="${comment.user_id}" hidden="hidden">
+                        <input name="to_user_id" th:value="${comment.user_id}" hidden="hidden">
+                        <input name="comment_id" th:value="${comment.comment_id}" hidden="hidden">
+                        <input name="blog_id" th:value="${blog.blog_id}" hidden="hidden">
+                        <div th:id="'comment'+${comment.comment_id}">
+                            <a class="name" th:href="@{'/GetUserInfo?user_id='+${comment.user_id}}"><label th:text="${comment.user_name}"></label></a>
+                            <label>&nbsp;:</label>
+                            <label th:text="${comment.content}"></label>
+                            <button type="button" th:onclick="getCommentFrom([[${comment.comment_id}]])"><label>回复</label></button>
+                        </div>
+                    </form>
+                    <div th:each="replaylist:${commentlist.replay}">
+                        <div class="replay" th:each="replay:${replaylist}">
+                            <form tabindex="0" th:id="${'replay_form'+replay.replay_id}">
+<!--                                <div th:id="'comment'+${comment.comment_id}">-->
+                                    <div th:id="'replay'+${replay.replay_id}">
+                                        <input name="comment_id" th:value="${comment.comment_id}" hidden="hidden">
+                                        <input hidden="hidden" name="to_user_id" th:value="${replay.user_id}" >
+                                        <input hidden="hidden" name="user_id" th:value="${replay.to_user_id}">
+                                        <input name="blog_id" th:value="${blog.blog_id}" hidden="hidden">
+                                        <a th:href="@{'/GetUserInfo?user_id='+${replay.user_id}}"><label th:text="${replay.user_name}"></label></a>
+                                        <label >&nbsp;回复&nbsp;</label>
+                                        <a th:href="@{'/GetUserInfo?user_id='+${replay.to_user_id}}"><label th:text="${replay.to_user_name}"></label></a>
+                                        <label>&nbsp;:</label>
+                                        <span th:text="${replay.content}"></span>
+                                        <button type="button" th:onclick="getReplayFrom([[${replay.replay_id}]])"><label>回复</label></button>
+                                    </div>
+<!--                                </div>-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--链接-->
+<div>
+    <a href="#"></a>
+</div>
+</body>
+</html>

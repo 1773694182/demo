@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/register.js}"></script>
+    <script th:src="@{/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+    <style>
+        .form-control {
+            margin-left: 35%;
+            width: 30%;
+        }
+
+        label {
+            margin-top: 30px;
+            margin-left: 35%;
+        }
+
+        #interest {
+            margin-left: 35%;
+        }
+
+        #interest>.interest {
+            display: inline-block;
+            margin-right: 5%;
+        }
+        #choose{
+            margin-left: 35%;
+        }
+        #choose button{
+            margin-top: 3%;
+            margin-left: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="/addUser">
+        <div>
+            <a href="/login">已有账号返回登录</a>
+            <label for="user_id">账号</label>
+            <input type="text" name="user_id" id="user_id" class="form-control" aria-describedby="helpBlock">
+            <label for="password">密码</label>
+            <input id="password" name="password" type="password" class="form-control" aria-describedby="helpBlock">
+            <label for="check_password">确认密码</label>
+            <input id="check_password" name="check_password" type="password" class="form-control" aria-describedby="helpBlock">
+            <label for="name">昵称</label>
+            <input type="text" name="name" id="name" class="form-control" aria-describedby="helpBlock">
+            <label for="sex">性别</label>
+            <select type="text" name="sex" id="sex" class="form-control" readonly="readonly" aria-describedby="helpBlock">
+                <option value="2">保密</option>
+                <option value="1">男</option>
+                <option value="0">女</option>
+            </select>
+            <div class="birthday">
+                <label>生日</label>
+                <input type='text' name="date" readonly="readonly" class="form-control" id='datetimepicker' />
+                <script>
+                    $('#datetimepicker').datetimepicker({
+                        format: 'yyyy-mm-dd',
+                        weekStart: 1,
+                        autoclose: true,
+                        startView: 2,
+                        minView: 2,
+                        forceParse: false,
+                        language: 'zh-CN',
+                        dayOfYearStart: 2000,
+                        startDate: "1900-01-01",
+                    });
+                </script>
+            </div>
+            <input name="state" id="state" value="1" hidden="hidden">
+            <input name="role" id="role" value="1" hidden="hidden">
+            <div>
+                <label>邮箱</label>
+                <input type="text" id="email" name="email" class="form-control">
+            </div>
+            <div>
+                <label style="margin-top: 8px;width: 100%">验证码</label>
+                <input type="text" style="width: 10%;display:inline-block" name="VerificationCode" class="form-control">
+                <button onclick="getVerificationCode()" class="btn btn-success" style="float: right;display:inline-block;margin-right: 48%" type="button">获取验证码</button>
+            </div>
+            <div>
+                <label for="question">安全问题</label>
+                <select class="form-control" id="question" name="question" readonly="readonly">
+                    <option value="1">你的母校名字</option>
+                    <option value="2">你的母亲名字</option>
+                    <option value="3">你的父亲名字</option>
+                </select>
+                <input id="answer" name="answer" class="form-control">
+            </div>
+        </div>
+        <div id="choose">
+            <button class="btn btn-success">注册</button>
+            <button class="btn btn-danger" type="reset">重置</button>
+        </div>
+    </form>
+</body>
+
+</html>

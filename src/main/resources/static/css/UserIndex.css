@@ -1,0 +1,54 @@
+.blog{
+    margin-top: 2px;
+    border: black;
+}
+.blog_all{
+    padding-left: 17px;
+    padding-bottom: 5px;
+    background-color: white;
+    border: black;
+    margin-top: 2px;
+
+}
+.blog_button{
+    background-color: white;
+    border: none;
+}
+.blog_button:hover{
+    color: blue;
+}
+.choose_button{
+    margin-left: 7px;
+    margin-top: 7px;
+    height: 100%;
+    border: none;
+}
+.update {
+    margin-top: 5%;
+    display: block;
+    float: right;
+    margin-right: 5%;
+}
+.info {
+    padding-top: 5%;
+    display: block;
+}
+.portrait{
+    text-align: center;
+}
+#blog{
+    margin-top: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+#search{
+    margin-top: 14px;
+    margin-left: 50px;
+    margin-bottom: 5px;
+
+}
+#choose{
+    margin-top: 7px;
+    margin-left: 100px;
+    margin-bottom: 5px;
+}

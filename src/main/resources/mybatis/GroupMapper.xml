@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Mapper.GroupMapper">
+    <insert id="CreateGroup" parameterType="com.example.demo.Pojo.Group">
+        insert into `group`(group_id,group_account,group_name,user_id)
+            values(#{group_id},#{group_account},#{group_name},#{user_id});
+    </insert>
+    <select id="SearchGroup" resultType="com.example.demo.Pojo.Group">
+        select * from `group` where group_account=#{group_account};
+    </select>
+    <delete id="DeleteGroup" parameterType="com.example.demo.Pojo.Group">
+        delete from `group` where group_account=#{group_account}
+    </delete>
+</mapper>

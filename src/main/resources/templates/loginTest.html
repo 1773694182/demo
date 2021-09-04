@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>后台登录</title>
+
+    <link rel="icon" href="/image/pu.ico" type="image/x-icon"/>
+    <link href="/css/login.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="login">
+    <div class="message" style="text-align: center;">吴泽武的私人博客登录</div>
+
+    <div style="margin-top: 20px" id="ByAccount">
+        <form th:action="@{/loginByShiro}">
+            <span style="color:red;" th:text="${msg}"></span>
+            <input id="account" name="account" placeholder="用户名" type="text" th:value="${account}">
+
+            <input id="password" name="password" placeholder="密码" type="password" th:value="${password}">
+
+            <button style="width:100%;height: 50px;background-color: #0e90d2">登录</button>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>后台登录</title>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/login.js}"></script>
+    <script th:src="@{/layer/layer.js}"></script>
+    <script th:src="@{/js/AutomaticLogon.js}"></script>
+    <link rel="icon" href="/image/pu.ico" type="image/x-icon"/>
+    <link href="/css/login.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="login">
+    <div class="message" style="text-align: center;">吴泽武的私人博客登录</div>
+    <div id="darkbannerwrap"></div>
+    <span id="msg" style="color:red;" th:text="${msg}"></span>
+    <div style="margin-top: 20px" id="ByAccount">
+        <button class="btn btn-danger" style="margin-bottom: 5px" onclick="ChooseWay(0)">邮箱登录</button>
+        <form>
+            <input id="account" name="account" placeholder="用户名" type="text" th:value="${session.account}">
+            <hr class="hr20">
+            <input id="password" name="password" placeholder="密码" type="password" th:value="${session.password}">
+            <hr class="hr20">
+            <button type="button" onclick="checkAccount()" style="width:100%;height: 50px;background-color: #0e90d2">登录</button>
+            <hr class="hr20">
+            <a style="float:right" href="/register">立即注册</a>
+        </form>
+    </div>
+    <div style="margin-top: 20px;display: none" id="ByEmail">
+        <button class="btn btn-danger" style="margin-bottom: 5px" onclick="ChooseWay(1)">账号登录</button>
+        <form>
+<!--            <span style="color:red;" th:text="${msg}"></span>-->
+            <input id="Email" name="Email" placeholder="邮箱地址" type="text" th:value="${account}">
+            <hr class="hr20">
+            <input id="VerificationCode" style="width: 40%;display: inline-block" name="VerificationCode" placeholder="验证码" type="text" th:value="${password}">
+            <button onclick="getVerificationCode()" class="btn btn-success" style="float: right;display:inline-block;margin-right: 30%;margin-top: 8px" type="button">获取验证码</button>
+            <hr class="hr20">
+            <button type="button" onclick="checkEmail()" style="width:100%;height: 50px;background-color: #0e90d2">登录</button>
+            <hr class="hr20">
+            <a style="float:right" href="/register">立即注册</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

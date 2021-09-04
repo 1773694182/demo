@@ -1,0 +1,21 @@
+.form-control {
+    margin-left: 30%;
+    width: 40%;
+}
+label {
+    margin-top: 30px;
+    margin-left: 30%;
+}
+#content{
+    width: 40%;
+    margin-left: 30%;
+    height: 700px;
+}
+.choose{
+    margin-left: 35%;
+    margin-bottom: 200px;
+}
+.choose button{
+    margin-top: 3%;
+    margin-left: 10%;
+}

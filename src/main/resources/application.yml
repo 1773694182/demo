@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/myblog
+    username: root
+    password: root
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    connect-timeout: 30000
+    database: 0
+  mail:
+    username: 1773694182@qq.com
+    password: jjvvwzvjsxmadejf
+    host: smtp.qq.com
+
+
+mybatis:
+  type-aliases-package: com.blm.pojo
+  mapper-locations: classpath:mybatis/*.xml
+
+server:
+  servlet:
+    session:
+      timeout: 432000
+      tracking-modes: cookie
+      cookie:
+        http-only: true

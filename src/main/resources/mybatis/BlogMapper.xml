@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Mapper.BlogMapper">
+<!--    发布博客-->
+    <insert id="postBlog" parameterType="com.example.demo.Pojo.Blog">
+        insert into blog(blog_id, user_id, content, label, classification,
+                collection_number, like_number, view_number, comment_number, date, title,state)
+        values (#{blog_id},#{user_id},#{content},#{label},#{classification},
+                #{collection_number},#{like_number},#{view_number},#{comment_number},#{date},#{title},#{state});
+    </insert>
+
+<!--    评论-->
+    <insert id="postComment" parameterType="com.example.demo.Pojo.Comment">
+        insert into comment_table(user_id,blog_id,comment_id,content,date,state)
+        values (#{user_id},#{blog_id},#{comment_id},#{content},#{date},#{state});
+    </insert>
+
+<!--    回复-->
+    <insert id="postReplay" parameterType="com.example.demo.Pojo.Replay">
+        insert into replay_table(replay_id,comment_id,user_id,content,date,state,to_user_id)
+        values (#{replay_id},#{comment_id},#{user_id},#{content},#{date},#{state},#{to_user_id});
+    </insert>
+
+<!--    删除博客-->
+    <update id="deleteBlog" parameterType="com.example.demo.Pojo.Blog">
+        update blog set state =-1 where blog_id=#{blog_id};
+    </update>
+
+<!--    删除评论-->
+    <update id="deleteComment" parameterType="com.example.demo.Pojo.Comment">
+        update comment_table set state=-1 where comment_id=#{comment_id};
+    </update>
+
+<!--    删除回复-->
+    <update id="deleteReplay" parameterType="com.example.demo.Pojo.Replay">
+        update replay_table set state=-1 where replay_id=#{replay_id};
+    </update>
+
+<!--    修改博客内容-->
+    <update id="updateBlog" parameterType="com.example.demo.Pojo.Blog">
+        update blog set content=#{content},label=#{label},
+        classification=#{classification},title=#{title} where blog_id=#{blog_id};
+    </update>
+
+<!--从草稿箱内发布博客-->
+    <update id="postBlogFromDraft" parameterType="com.example.demo.Pojo.Blog">
+        update blog set state=0 where blog_id=#{blog_id};
+    </update>
+
+<!--    点赞-->
+    <update id="LikeBlog" parameterType="com.example.demo.Pojo.Blog">
+        update blog set like_number=like_number+1 where blog_id=#{blog_id};
+    </update>
+
+<!--    收藏-->
+    <update id="CollectionBlog" parameterType="com.example.demo.Pojo.Blog">
+        update blog set collection_number=collection_number+1 where blog_id=#{blog_id};
+    </update>
+<!--    评论-->
+
+    <update id="CommentBlog" parameterType="com.example.demo.Pojo.Blog">
+        update blog set comment_number=#{comment_number} where blog_id=#{blog_id};
+    </update>
+
+<!--    查询所有博客-->
+    <select id="getAllBlog" resultType="com.example.demo.Pojo.Blog">
+        select * from blog where state=0;
+    </select>
+
+<!--    查询博客信息通过用户-->
+    <select id="getBlogByUser" resultType="com.example.demo.Pojo.Blog">
+        select * from blog where user_id=#{user_id} and (state=0 or state=2);
+    </select>
+
+<!--    查询草稿箱通过用户-->
+    <select id="getDraftBlogByUser" resultType="com.example.demo.Pojo.Blog">
+        select * from blog where user_id=#{user_id} and state=1;
+    </select>
+
+<!--    查询删除的博客通过用户-->
+    <select id="getDeleteBlogByUser" resultType="com.example.demo.Pojo.Blog">
+        select * from blog where user_id=#{user_id} and state=-1;
+    </select>
+
+<!--    查询博客信息通过ID-->
+    <select id="getBlogByID" resultType="com.example.demo.Pojo.Blog">
+        select * from blog where blog_id=#{blog_id};
+    </select>
+
+<!--    查询博客通过分类-->
+    <select id="getBlogByClassification" resultType="com.example.demo.Pojo.Blog">
+        select * from blog where classification=#{classification};
+    </select>
+
+<!--    查询博客通过标签-->
+    <select id="getBlogByLabel" resultType="com.example.demo.Pojo.Blog">
+        select  * from blog where label=#{label};
+    </select>
+
+<!--    查询博客的评论信息-->
+    <select id="getComment" resultType="com.example.demo.Pojo.Comment">
+        select * from comment_table where blog_id=#{blog_id};
+    </select>
+
+<!--    查询评论的回复信息-->
+    <select id="getReplay" resultType="com.example.demo.Pojo.Replay">
+        select * from replay_table where comment_id=#{comment_id};
+    </select>
+<!--    查询点赞数-->
+    <select id="getLikeNumber" resultType="Integer">
+        select like_number from blog where blog_id=#{blog_id};
+    </select>
+<!--    查询收藏数-->
+    <select id="getCollection" resultType="Integer">
+        select collection_number from blog where blog_id=#{blog_id};
+    </select>
+<!--    查询评论ID-->
+    <select id="getCommentID" resultType="Integer">
+        select comment_id from comment_table where blog_id=#{blog_id};
+    </select>
+<!--    查询评论数-->
+    <select id="getCommentNumber" resultType="Integer">
+        select COUNT(comment_id) as comment_number from comment_table where blog_id=#{blog_id};
+    </select>
+<!--    查询回复数-->
+    <select id="GetReplayNumber" resultType="Integer">
+        select COUNT(replay_id) as replay_number from replay_table where comment_id=#{comment_id};
+    </select>
+</mapper>

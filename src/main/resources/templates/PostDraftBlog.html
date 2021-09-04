@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script th:src="@{/js/jquery-3.6.0.js}"></script>
+  <script th:src="@{/js/UserPostBlog.js}"></script>
+  <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/css/UserPostBlog.css}">
+</head>
+<body>
+<div th:replace="~{common::user_fun}"></div>
+<div th:each="blog:${blog_info}">
+  <form id="post">
+  <label for="title">标题</label>
+  <input name="title" th:value="${blog.title}" type="text" id="title" class="form-control" aria-describedby="helpBlock">
+  <label for="classification">分类</label>
+  <select name="classification" id="classification" class="form-control">
+    <option>后端</option>
+    <option>前端</option>
+    <option>.Net</option>
+    <option>小程序开发</option>
+    <option>机器学习</option>
+  </select>
+  <label for="tip">标签</label>
+  <select name="tip" id="tip" class="form-control">
+    <option>SpringBoot</option>
+    <option>SSM</option>
+    <option>网络协议</option>
+    <option>Android</option>
+    <option>IOS</option>
+  </select>
+  <label for="content">内容</label>
+  <textarea name="content" th:utext="${blog.content}" class="form-control" type="text" id="content" aria-describedby="helpBlock"></textarea>
+  <div class="choose">
+    <button type="button" onclick="PostBlog(1)" class="btn btn-success">保存草稿</button>
+    <button type="button" onclick="PostBlog(0)" class="btn btn-danger">发布博客</button>
+  </div>
+</form>
+</div>
+</body>
+</html>

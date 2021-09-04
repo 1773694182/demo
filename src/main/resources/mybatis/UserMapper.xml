@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.Mapper.UserMapper">
+<!--    添加用户信息-->
+    <insert id="addUser" parameterType="com.example.demo.Pojo.User">
+        insert into user(user_id,name,pwd,role,email,state,sex,birth)
+        values (#{user_id},#{name},#{pwd},#{role},#{email},#{state},#{sex},#{birth});
+    </insert>
+
+<!--    添加收藏博客-->
+    <insert id="addCollectionBlog" parameterType="com.example.demo.Pojo.Collection">
+        insert into collection_blog(collection_id,user_id,blog_id)
+        values (#{collecyion_id},#{user_id},#{blog_id});
+    </insert>
+
+<!--    添加安全问题-->
+    <insert id="addSafeQuestion" parameterType="com.example.demo.Pojo.SafeQuestion">
+        insert into safe_question(question,answer,question_id,user_id) values (#{question},#{answer},#{question_id},#{user_id});
+    </insert>
+
+<!--    删除安全问题-->
+    <delete id="deleteSafeQuestion" parameterType="com.example.demo.Pojo.SafeQuestion">
+        delete from safe_question where user_id=#{user_id};
+    </delete>
+
+<!--    删除收藏记录-->
+    <delete id="deleteCollectionBlog" parameterType="com.example.demo.Pojo.Collection">
+        delete from collection_blog where user_id=#{user_id} and blog_id=#{blog_id};
+    </delete>
+<!--    删除用户-->
+    <update id="deleteUSer" parameterType="com.example.demo.Pojo.User">
+        update user set state=-1 where user_id=#{user_id};
+    </update>
+
+<!--    修改用户信息（不包括密码）-->
+    <update id="updateInfo" parameterType="com.example.demo.Pojo.User">
+        update user set name=#{name},email=#{email} where user_id=#{user_id};
+    </update>
+
+<!--    修改用户密码-->
+    <update id="updatePassword" parameterType="com.example.demo.Pojo.User">
+        update user set pwd=#{pwd} where user_id=#{user_id}
+    </update>
+
+<!--    修改用户状态-->
+    <update id="updateUserState" parameterType="com.example.demo.Pojo.User">
+        update user set state=#{state} where user_id=#{user_id};
+    </update>
+
+<!--    重置安全问题-->
+    <update id="updateSafeQuestion" parameterType="com.example.demo.Pojo.SafeQuestion">
+        update safe_question
+        set question=#{question},answer=#{answer} where user_id=#{user_id};
+    </update>
+
+<!--    查询用户信息-->
+    <select id="getUserInfo" resultType="com.example.demo.Pojo.User">
+        select * from user where user_id=#{user_id}
+    </select>
+    <select id="getUserInfoByAccount" resultType="com.example.demo.Pojo.User">
+        select * from user where account=#{account}
+    </select>
+    <select id="getUserInfoByEmail" resultType="com.example.demo.Pojo.User">
+        select * from user where email=#{email}
+    </select>
+
+<!--    查询用户所有的博客点赞、收藏等信息；-->
+    <select id="getUserBlogInfo" resultType="com.example.demo.Pojo.UserBlogInfo">
+        select count(t_blog.blog_id) AS blog_number,sum(t_blog.collection_number) as collection_number,
+               sum(t_blog.view_number) as view_number,sum(t_blog.like_number) as like_number,
+               sum(t_blog.comment_number) as comment_number from (
+                    select * from blog where user_id=#{user_id}
+                ) as t_blog;
+    </select>
+
+<!--    查看个人回复-->
+    <select id="getUserReplay" resultType="com.example.demo.Pojo.Replay">
+        select * from replay_table where user_id=#{user_id};
+    </select>
+
+<!--    查询个人评论-->
+    <select id="getUserComment" resultType="com.example.demo.Pojo.Comment">
+        select * from comment_table where user_id=#{user_id};
+    </select>
+
+<!--    查询用户安全问题-->
+    <select id="getSafeQuestion" resultType="com.example.demo.Pojo.SafeQuestion">
+        select * from safe_question where user_id=#{user_id};
+    </select>
+
+<!--    查看收藏的博客-->
+    <select id="getCollectionBlog" resultType="com.example.demo.Pojo.Collection">
+        select * from collection_blog where user_id=#{user_id};
+    </select>
+
+<!--    查询邮箱信息-->
+    <select id="getEmail" resultType="String">
+        select email from user where email=#{email};
+    </select>
+
+</mapper>

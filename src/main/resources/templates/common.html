@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/layer/layer.js}"></script>
+    <script th:src="@{/js/AutomaticLogon.js}"></script>
+</head>
+<body>
+    <div class="user_fun" th:fragment="user_fun">
+      <a th:href="@{/GetDraftBlog}">草稿箱</a>
+      <a th:href="@{/GetDeleteBlog}">回收站</a>
+      <a th:href="@{/message.html}">新消息(<span>2</span>)</a>
+      <a th:href="@{/GetUserInfo}">个人信息</a>
+      <a th:href="@{/index2}">返回主页</a>
+      <a th:href="@{/LoginOut}">退出登录</a>
+      <a th:href="@{/UserPostBlog}">发布博客</a>
+    </div>
+</body>
+</html>
