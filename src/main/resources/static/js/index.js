@@ -8,7 +8,7 @@ function goUSer(user_id) {
         },
         async: false,
         success:function () {
-            window.location.href="/GetUserInfo?user_id="+user_id
+            window.location.href="/GetUserInfoByID?user_id="+user_id
         },
         error:function (){
             alert("error")

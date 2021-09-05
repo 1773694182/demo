@@ -10,8 +10,8 @@
     <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
 </head>
 <body>
-<input id="to_user_id" value="2">
-<input id="user_id" value="1">
+<input hidden="hidden" id="to_user_id" value="2">
+<input hidden="hidden" id="user_id" value="1">
 <div class="all">
     <div class="talkList">
         <div class="list">
@@ -24,7 +24,7 @@
     </div>
     <div class="talk">
         <div class="name" name="name">王一</div>
-        <div class="ShowMessage" id="message">111</div>
+        <div class="ShowMessage" id="message"></div>
         <div class="EnterMessage">
             <form>
                 <textarea id="sendMsg" class="EnterMessage form-control" placeholder="请输入内容"></textarea>

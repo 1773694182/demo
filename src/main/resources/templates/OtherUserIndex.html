@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>个人信息</title>
+  <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+  <script th:src="@{/js/jquery-3.6.0.js}"></script>
+  <script th:src="@{/js/UserIndex.js}"></script>
+  <script th:src="@{/js/BlogFunction.js}"></script>
+  <script th:src="@{/js/OtherUserIndex.js}"></script>
+  <script th:src="@{/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/Common.css}">
+  <link rel="stylesheet" th:href="@{/css/UserIndex.css}">
+</head>
+<body>
+<div th:replace="~{common::user_fun}"></div>
+<div class="info">
+  <div class="portrait"><span><img th:src="@{/image/头像.jpg}" style="border-radius:50%"  width="130.8px" height="84.8px"></span></div>
+  <div class="portrait"><span th:text="${user_info.name}">昵称</span></div>
+  <button type="button" th:onclick="addFriend([[${user_info.user_id}]])">关注</button>
+  <button type="button" th:onclick="chat([[${user_info.user_id}]])">私信</button>
+</div>
+<nav id="blog" class="navbar navbar-default">
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul id="choose" class="nav navbar-nav">
+      <li class="choose_button"><label><button class="choose_button" onclick="choose(1)">发布的博客</button></label></li>
+      <li class="choose_button"><label><button class="choose_button" onclick="choose(2)">收藏的博客</button></label></li>
+    </ul>
+    <form id="search" class="navbar-form navbar-left">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+  <div id="post_blog">
+    <div class="blog" th:each="bloglist:${user_blog}">
+      <form class="blog_all" th:action="@{/GetBlogByID}" method="post">
+        <input name="operation" value="view" hidden="hidden">
+        <input id="blog_id" name="blog_id" th:value="${bloglist.blog_id}" hidden="hidden">
+        <button class="blog_button"><h2 th:text="${bloglist.title}"></h2></button>
+        <div><span th:text="${bloglist.title}"></span></div>
+        <span th:text="${bloglist.date}"></span>
+        <span th:text="${bloglist.collection_number}"></span><span>收藏</span>
+        <span th:text="${bloglist.like_number}"></span><span>点赞</span>
+        <span th:text="${bloglist.view_number}"></span><span>浏览</span>
+      </form>
+    </div>
+  </div>
+  <div id="collection_blog" style="display: none">
+    <div class="collection_blog" th:each="bloglist:${user_collection}">
+      <form class="blog_all" th:action="@{/GetBlogByID}" method="post">
+        <input name="operation" value="view" hidden="hidden">
+        <input id="collection_blog_id" name="blog_id" th:value="${bloglist.blog_id}" hidden="hidden">
+        <button class="blog_button"><h2 th:text="${bloglist.title}"></h2></button>
+        <div><span th:text="${bloglist.title}"></span></div>
+        <span th:text="${bloglist.date}"></span>
+        <span th:text="${bloglist.collection_number}"></span><span>收藏</span>
+        <span th:text="${bloglist.like_number}"></span><span>点赞</span>
+        <span th:text="${bloglist.view_number}"></span><span>浏览</span>
+      </form>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

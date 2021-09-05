@@ -6,6 +6,7 @@ import com.example.demo.Pojo.SafeQuestion;
 import com.example.demo.Pojo.User;
 import com.example.demo.Service.Impl.BlogServiceImpl;
 import com.example.demo.Service.Impl.UserServiceImpl;
+import com.example.demo.Service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,8 @@ public class UserController {
     private UserServiceImpl userService;
     @Autowired
     private BlogServiceImpl blogService;
+    @Autowired
+    private RedisService redisService;
 //添加
     @RequestMapping("/addUser")
     public String addUser(User user, SafeQuestion safeQuestion, RedirectAttributes attributes){
@@ -47,6 +50,11 @@ public class UserController {
         safeQuestion.setQuestion_id(user1.getUser_id());
         userService.addSafeQuestion(safeQuestion);
         return "redirect:/login";
+    }
+
+    @RequestMapping("/AddFriend")
+    public void AddFriend(@CookieValue("account")Integer account,@RequestParam("FriendID")String FriendID){
+        redisService.SetSet("FriendOf"+account,FriendID);
     }
 //删除
     @RequestMapping("/DeleteSafeQuestion")
@@ -96,6 +104,19 @@ public class UserController {
         model.addAttribute("user_collection",blogList);
         return "UserIndex";
     }
+    @RequestMapping("/GetUserInfoByID")
+    public String GetUserInfo(@CookieValue("account")int account,@RequestParam("user_id") int user_id, Model model){
+        List<Collection> collectionList=userService.getCollectionBlog(user_id);
+        List<Blog> blogList=userService.getCollectionBlog(collectionList);
+        model.addAttribute("user_info",userService.getUserInfo(user_id));
+        model.addAttribute("user_blog_info",userService.getUserBlogInfo(user_id));
+        model.addAttribute("user_blog",blogService.getBlogByUser(user_id));
+        model.addAttribute("user_collection",blogList);
+        if (account==user_id)
+            return "UserIndex";
+        else
+            return "OtherUserIndex";
+    }
 
     @RequestMapping("/GetUserComment")
     public String GetUserComment(@RequestParam("user_id")int user_id,Model model){
@@ -116,5 +137,11 @@ public class UserController {
 //        System.out.println(userService.getSafeQuestion(user_id));
         model.addAttribute("user_safe_question",userService.getSafeQuestion(user_id));
         return "test";
+    }
+
+    @RequestMapping("/GetFriendsList")
+    public String GetFriendsList(@CookieValue("account")String account,Model model){
+        model.addAttribute("user_list",redisService.SetGet("FriendOf"+account));
+        return "chat";
     }
 }
