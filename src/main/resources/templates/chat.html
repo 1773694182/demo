@@ -5,13 +5,11 @@
     <title>Title</title>
     <script th:src="@{/js/jquery-3.6.0.js}"></script>
     <script th:src="@{/js/LoginAuto.js}"></script>
-
+    <script th:src="@{/js/chat.js}"></script>
     <link rel="stylesheet" th:href="@{/css/chat.css}">
     <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
 </head>
 <body>
-<input id="to_user_id" value="1">
-<input id="user_id" value="2">
 <div class="all">
     <div class="talkList">
         <div class="list">
@@ -24,7 +22,7 @@
     </div>
     <div class="talk">
         <div class="name" name="name">王一</div>
-        <div class="ShowMessage" id="message">111</div>
+        <div class="ShowMessage" id="message"></div>
         <div class="EnterMessage">
             <form>
                 <textarea id="sendMsg" class="EnterMessage form-control" placeholder="请输入内容"></textarea>
@@ -34,5 +32,4 @@
     </div>
 </div>
 </body>
-<script th:src="@{/js/test.js}"></script>
 </html>

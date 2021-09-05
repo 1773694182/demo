@@ -2,6 +2,7 @@ package com.example.demo.Config;
 
 import com.example.demo.Service.GroupService;
 import com.example.demo.Service.WebSocketService;
+import com.example.demo.Service.WebSocketTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,5 +19,7 @@ public class WebSocketConfig {
     @Autowired
     public void GetMessage(GroupService groupService){
         WebSocketService.groupService=groupService;
+        WebSocketTestService.groupService=groupService;
     }
+
 }

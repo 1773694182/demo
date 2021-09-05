@@ -56,7 +56,8 @@ public class WebSocketService {
     }
     webSocketServerMAP.put(uri, this);//保存uri对应的连接服务
     addOnlineCount(); // 在线数加1
-//    System.out.println(this + "有新连接加入！当前在线连接数：" + getOnlineCount());
+    System.out.println(this);
+    System.out.println(this + "有新连接加入！当前在线连接数：" + getOnlineCount());
     System.out.println(groupService.GetMessage(Integer.parseInt(name)));
   }
 
@@ -68,7 +69,7 @@ public class WebSocketService {
   public void onClose() throws IOException {
     webSocketServerMAP.remove(uri);//删除uri对应的连接服务
     reduceOnlineCount(); // 在线数减1
-//    System.out.println("有一连接关闭！当前在线连接数" + getOnlineCount());
+    System.out.println("有一连接关闭！当前在线连接数" + getOnlineCount());
   }
 
   /**
@@ -88,10 +89,10 @@ public class WebSocketService {
     //指定员工
     //获取消息接收者的客户端连接
     StringBuilder receiverUri = new StringBuilder("ws://localhost:8080/");
-//    System.out.println(webSocketServerMAP);
+    System.out.println(webSocketServerMAP);
 //    System.out.println(receiverUri+name);
     receiverUri.append(toName);//发送信息路径
-//    System.out.println(receiverUri);
+    System.out.println(receiverUri);
     WebSocketService webSocketServer = webSocketServerMAP.get(receiverUri.toString());
     if(webSocketServer != null){
       webSocketServer.session.getBasicRemote().sendText("From" +name + ":" + message);
