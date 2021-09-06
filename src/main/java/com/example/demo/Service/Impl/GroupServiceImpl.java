@@ -69,10 +69,10 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<MyMessage> GetMessage(int user_id) {
+    public List<Map> GetMessage(int user_id) {
         Map map= (Map)redisService.HashGet("Message");
         List list= (List) map.get(String.valueOf(user_id));
-        System.out.println(list);
+//        System.out.println(list);
         return list;
     }
 

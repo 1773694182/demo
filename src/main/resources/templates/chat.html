@@ -6,29 +6,27 @@
     <script th:src="@{/js/jquery-3.6.0.js}"></script>
     <script th:src="@{/js/LoginAuto.js}"></script>
     <script th:src="@{/js/chat.js}"></script>
+    <script th:src="@{/js/CreateTalk.js}"></script>
     <link rel="stylesheet" th:href="@{/css/chat.css}">
     <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
 </head>
 <body>
 <div class="all">
     <div class="talkList">
-        <div class="list">
+        <div class="list1">
             <label>聊天列表</label>
         </div>
         <div class="list" th:each="user_list:${user_list}">
-            <img th:src="@{/img/emo_01.gif}">
-            <label th:text="${user_list.name}"></label>
+            <div>
+                <button th:onclick="ToChat([[${user_list.user_id}]])">
+                    <img th:src="@{/img/emo_01.gif}">
+                    <input th:value="${user_list.user_id}" hidden="hidden">
+                    <label th:id="name+${user_list.user_id}" th:text="${user_list.name}"></label>
+                </button>
+            </div>
         </div>
     </div>
-    <div class="talk">
-        <div class="name" name="name">王一</div>
-        <div class="ShowMessage" id="message"></div>
-        <div class="EnterMessage">
-            <form>
-                <textarea id="sendMsg" class="EnterMessage form-control" placeholder="请输入内容"></textarea>
-                <button onclick="send()" type="button">发送</button>
-            </form>
-        </div>
+    <div id="talk" class="talk">
     </div>
 </div>
 </body>

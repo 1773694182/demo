@@ -8,9 +8,17 @@
     float: left;
     margin-top: 100px;
 }
-.list{
-    margin-top: 10px;
+.list1{
+    height: 50px;
     border-bottom: 1px solid black;
+}
+.list{
+    height: 50px;
+    border-bottom: 1px solid black;
+}
+.list button{
+    height: 50px;
+    width: 100%;
 }
 .talkList{
     text-align: center;
@@ -22,6 +30,17 @@
     height: 500px;
     border:1px solid black;
 }
+.UserMessage{
+    margin-left: 10px;
+}
+.MyMessage{
+    float: right;
+    margin-right: 5px;
+}
+.date{
+    margin-left: 45%;
+    width: 100%;
+}
 .name{
     padding-top: 13px;
     width: 700px;
@@ -30,6 +49,7 @@
     border:1px solid black;
 }
 .ShowMessage{
+    overflow:auto;
     background-color: white;
     width: 700px;
     height: 300px;

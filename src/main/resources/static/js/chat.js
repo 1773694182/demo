@@ -1,8 +1,8 @@
 var websocket = null;
-
+var to_user_id=null
 //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
 if ('WebSocket' in window) {
-    var url="ws://localhost:8080/"+document.getElementById("user_id").value
+    var url="ws://localhost:8080/"+account
     websocket = new WebSocket(url);
 } else {
     alert('Not support websocket')
@@ -45,8 +45,38 @@ function closeWebSocket() {
 
 //发送消息
 function send() {
+    console.log(to_user_id)
     var message = $("#sendMsg").val();
-    var arr=["2",message]
+    var arr=[to_user_id,message]
     websocket.send(arr);
+    var date=null
+    $.ajax({
+        url:"/GetDate",
+        type:"post",
+        async:false,
+        success:function (data){
+            date=data
+            console.log(data)
+            console.log(date)
+        }
+    })
+    var box=document.getElementById("message")
+    var p=document.createElement("div")
+    var t=document.createElement("p")
+    console.log(date)
+    t.innerText=date
+    t.setAttribute("class","date")
+    p.appendChild(t)
+    t=document.createElement("label")
+    t.setAttribute("class","MyMessage")
+    t.innerText=message
+    p.appendChild(t)
+    box.appendChild(p)
     // websocket.send(message);
+}
+function ToChat(x) {
+    to_user_id=x
+    console.log(to_user_id)
+    $("#talk").empty();
+    CreateTalk()
 }

@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -141,7 +143,15 @@ public class UserController {
 
     @RequestMapping("/GetFriendsList")
     public String GetFriendsList(@CookieValue("account")String account,Model model){
-        model.addAttribute("user_list",redisService.SetGet("FriendOf"+account));
+        Set<Object> set=redisService.SetGet("FriendOf"+account);
+        List<User> list=new ArrayList<>();
+        System.out.println(set);
+        for (Object id:set){
+            System.out.println(id);
+            list.add(userService.getUserInfo(Integer.parseInt((String) id)));
+        }
+        model.addAttribute("user_list",list);
+        System.out.println(list);
         return "chat";
     }
 }

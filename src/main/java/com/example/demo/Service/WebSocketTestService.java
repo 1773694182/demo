@@ -10,6 +10,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Component
 @Service
+//@ServerEndpoint("/")
 @ServerEndpoint("/{name}")
 public class WebSocketTestService {
     /** WebSocket无法注入Bean，Service等，要在Config文件内进行 @Autowired或其他注入*/
@@ -38,11 +40,11 @@ public class WebSocketTestService {
      * 连接建立成功时触发，绑定参数
      * @param session
      *            可选的参数。session为与某个客户端的连接会话，需要通过它来给客户端发送数据
-     * @param name
+//     * @param name
      * @throws IOException
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("name") String name) throws IOException {
+    public void onOpen( Session session, @PathParam("name") String name) throws IOException {
         this.session = session;
         this.name = name;
         this.uri = session.getRequestURI().toString();
@@ -85,7 +87,7 @@ public class WebSocketTestService {
         System.out.println(message);
         String[] arr=message.split(",",2);
         this.toName=arr[0];
-        this.session.getBasicRemote().sendText("To" + toName + ":" + arr[1]);
+//        this.session.getBasicRemote().sendText("To" + toName + ":" + arr[1]);
         //指定员工
         //获取消息接收者的客户端连接
         StringBuilder receiverUri = new StringBuilder("ws://localhost:8080/");
@@ -94,13 +96,13 @@ public class WebSocketTestService {
         receiverUri.append(toName);//发送信息路径
         System.out.println(receiverUri);
         WebSocketTestService WebSocketTestService = webSocketServerMAP.get(receiverUri.toString());
-        if(WebSocketTestService != null){
-            WebSocketTestService.session.getBasicRemote().sendText("From" +name + ":" + message);
-        }
-        else {
+//        if(WebSocketTestService != null){
+//            WebSocketTestService.session.getBasicRemote().sendText("From" +name + ":" + message);
+//        }
+//        else {
             groupService.SendMessage(toName,name,arr[1]);
-            this.session.getBasicRemote().sendText("SendSuccess");
-        }
+//            this.session.getBasicRemote().sendText("SendSuccess");
+//        }
     }
 
     /**

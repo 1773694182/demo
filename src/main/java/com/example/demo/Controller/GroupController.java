@@ -5,11 +5,13 @@ import com.example.demo.Service.GroupService;
 import com.example.demo.Service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class GroupController {
@@ -43,11 +45,32 @@ public class GroupController {
         groupService.SendMessage(String.valueOf(1),String.valueOf(0),"hello world");
     }
     @RequestMapping("/GetMessage")
-    public void GetMessage(){
-        List list=groupService.GetMessage(1);
-        System.out.println(list);
-//        System.out.println(map.get("message"));
-//        System.out.println(map.get("date"));
-//        System.out.println(map.get("user_id"));
+    public List GetMessage(){
+        List<Map> list=groupService.GetMessage(1);
+        return list;
+    }
+    @ResponseBody
+    @RequestMapping("/GetMessageByID")
+    public List GetMessageByID(@CookieValue("account")int account,@RequestParam("user_id")String user_id){
+        List<Map> list=groupService.GetMessage(account);
+        List<Map> MapList=new ArrayList<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (Map map:list){
+            if (map.get("user_id").equals(user_id)){
+                String dateString = formatter.format(map.get("date"));
+                map.put("date",dateString);
+                MapList.add(map);
+            }
+        }
+        return MapList;
+    }
+    @ResponseBody
+    @RequestMapping("/GetDate")
+    public String GetDate(){
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(System.currentTimeMillis());
+        System.out.println((String) dateString);
+        return (String)dateString;
     }
 }

@@ -11,5 +11,5 @@ public interface GroupService {
     void CreateGroup(int user_id,String group_name);
     void DeleteGroup(int group_account);
     void SendMessage(String to_user_id,String user_id,String message);
-    List<MyMessage> GetMessage(int user_id);
+    List<Map> GetMessage(int user_id);
 }
