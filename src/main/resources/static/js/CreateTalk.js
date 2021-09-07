@@ -4,6 +4,7 @@ function CreateTalk(){
         data:{"user_id":to_user_id },
         type:"post",
         success:function (data){
+            console.log(data)
             var name=document.getElementById("name"+to_user_id).innerText
             var box=document.getElementById("talk")
 
@@ -34,23 +35,41 @@ function CreateTalk(){
             p.appendChild(t)
 
             box.appendChild(p)
-            for (var i=0;i<data.length;i++){
-                // console.log(data)
-                // console.log(data[i].user_id)
-                // console.log(data[i].date)
-                // console.log(data[i].message)
-                var box=document.getElementById("message")
-                var p=document.createElement("div")
-                var t=document.createElement("p")
-                t.innerText=data[i].date
-                t.setAttribute("class","date")
-                p.appendChild(t)
-                t=document.createElement("label")
-                t.setAttribute("class","UserMessage")
-                t.innerText=data[i].message
-                p.appendChild(t)
-                box.appendChild(p)
+            for (var i=data.length-1;i>=0;i--){
+                CreateMessage(data[i].user_id,data[i].date,data[i].message)
             }
+            var scrollTarget = document.getElementById("message");
+            scrollTarget.scrollTop=scrollTarget.scrollHeight;
         }
     })
+}
+function CreateMessage(user_id,date,message) {
+    var box=document.getElementById("message")
+    var p=document.createElement("div")
+    var t=document.createElement("p")
+    t.innerText=date
+    t.setAttribute("class","date")
+    p.appendChild(t)
+
+    t=document.createElement("label")
+    if (user_id==account)
+        t.setAttribute("class","MyMessage")
+    else
+        t.setAttribute("class","UserMessage")
+    t.innerText=message
+    p.appendChild(t)
+    box.appendChild(p)
+}
+function GetDate() {
+    var date=null
+    $.ajax({
+        url:"/GetDate",
+        type:"post",
+        async:false,
+        success:function (data){
+            date=data
+        }
+    })
+    console.log(date)
+    return date
 }

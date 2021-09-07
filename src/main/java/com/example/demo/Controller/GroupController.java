@@ -44,33 +44,33 @@ public class GroupController {
     public void SendMessage(){
         groupService.SendMessage(String.valueOf(1),String.valueOf(0),"hello world");
     }
-    @RequestMapping("/GetMessage")
-    public List GetMessage(){
-        List<Map> list=groupService.GetMessage(1);
-        return list;
-    }
+//    @RequestMapping("/GetMessage")
+//    public List GetMessage(){
+//        List<Map> list=groupService.GetMessage(1);
+//        return list;
+//    }
     @ResponseBody
     @RequestMapping("/GetMessageByID")
     public List GetMessageByID(@CookieValue("account")int account,@RequestParam("user_id")String user_id){
-        List<Map> list=groupService.GetMessage(account);
+        List<Object> list=groupService.GetMessage(account,Integer.parseInt(user_id));
+//        List<Map> list1=groupService.GetMessage();
         List<Map> MapList=new ArrayList<>();
+//        System.out.println("List:"+list);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (Map map:list){
-            if (map.get("user_id").equals(user_id)){
-                String dateString = formatter.format(map.get("date"));
-                map.put("date",dateString);
-                MapList.add(map);
-            }
+        for (Object map1:list){
+            Map map=(Map) map1;
+            String dateString = formatter.format(map.get("date"));
+            map.put("date",dateString);
+            MapList.add(map);
         }
         return MapList;
     }
     @ResponseBody
     @RequestMapping("/GetDate")
     public String GetDate(){
-
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(System.currentTimeMillis());
-        System.out.println((String) dateString);
-        return (String)dateString;
+//        System.out.println((String) dateString);
+        return dateString;
     }
 }

@@ -58,7 +58,7 @@ public class WebSocketService {
     addOnlineCount(); // 在线数加1
     System.out.println(this);
     System.out.println(this + "有新连接加入！当前在线连接数：" + getOnlineCount());
-    System.out.println(groupService.GetMessage(Integer.parseInt(name)));
+//    System.out.println(groupService.GetMessage(Integer.parseInt(name)));
   }
 
   /**

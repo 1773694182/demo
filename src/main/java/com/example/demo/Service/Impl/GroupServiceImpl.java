@@ -7,6 +7,7 @@ import com.example.demo.Service.GroupService;
 import com.example.demo.Service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CookieValue;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -25,27 +26,20 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void SendMessage(String to_user_id,String user_id, String message) {
+        String MessageId=null;
+        if (Integer.valueOf(to_user_id)>Integer.valueOf(user_id))
+            MessageId=user_id+to_user_id;
+        else MessageId=to_user_id+user_id;
+
         Map map=new HashMap();
         MyMessage myMessage=new MyMessage();
         Date date=new Date();
         myMessage.setMessage(message);
         myMessage.setUser_id(user_id);
         myMessage.setDate(date);
-        List<MyMessage> list=new ArrayList<>();
-
-        map.put(to_user_id,myMessage);
-        System.out.println("map:"+map);
-        Map<Object, Object> map1= (Map<Object, Object>) redisService.HashGet("Message");
-        if (map1.get(to_user_id)!=null)
-        {
-            list= (List<MyMessage>) map1.get(to_user_id);
-            System.out.println("list:"+list);
-        }
+        List<Object> list=new ArrayList<>();
         list.add(myMessage);
-        Map map2=new HashMap();
-        map2.put(to_user_id,list);
-        System.out.println("map2:"+map2);
-        redisService.HashSet("Message",map2);
+        redisService.ListSetAll("MessageOf"+MessageId,list);
     }
 
     @Override
@@ -61,17 +55,20 @@ public class GroupServiceImpl implements GroupService {
                 break;
         }
         group.setGroup_account(group_account);
-        System.out.println(group_account);
+//        System.out.println(group_account);
         group.setGroup_id(0);
-        System.out.println(group);
+//        System.out.println(group);
         groupMapper.CreateGroup(group);
         redisService.SetSet(String.valueOf(group_account),user_id);
     }
 
     @Override
-    public List<Map> GetMessage(int user_id) {
-        Map map= (Map)redisService.HashGet("Message");
-        List list= (List) map.get(String.valueOf(user_id));
+    public List<Object> GetMessage(int account,int user_id) {
+        String MessageId=null;
+        if (account>user_id)
+            MessageId=user_id+""+account;
+        else MessageId=account+""+user_id;
+        List<Object> list=redisService.ListGet("MessageOf"+MessageId,0,-1);
 //        System.out.println(list);
         return list;
     }

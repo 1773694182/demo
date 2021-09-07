@@ -136,7 +136,6 @@ public class UserController {
 
     @RequestMapping("/GetSafeQuestion")
     public String GetSafeQuestion(@RequestParam("user_id")int user_id,Model model){
-//        System.out.println(userService.getSafeQuestion(user_id));
         model.addAttribute("user_safe_question",userService.getSafeQuestion(user_id));
         return "test";
     }

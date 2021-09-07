@@ -32,10 +32,11 @@
 }
 .UserMessage{
     margin-left: 10px;
+    float: left;
 }
 .MyMessage{
     float: right;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 .date{
     margin-left: 45%;
@@ -43,22 +44,23 @@
 }
 .name{
     padding-top: 13px;
-    width: 700px;
+    width: 600px;
     height: 50px;
     text-align: center;
     border:1px solid black;
 }
 .ShowMessage{
     overflow:auto;
+    overflow-x: hidden;
     background-color: white;
-    width: 700px;
+    width: 600px;
     height: 300px;
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
 }
 .talk .EnterMessage{
-    width: 700px;
+    width: 600px;
     height: 150px;
 }
 textarea{

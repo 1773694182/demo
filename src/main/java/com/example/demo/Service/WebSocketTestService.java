@@ -2,6 +2,9 @@ package com.example.demo.Service;
 
 import com.example.demo.Service.GroupService;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.websocket.*;
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Component
 @Service
 //@ServerEndpoint("/")
-@ServerEndpoint("/{name}")
+@ServerEndpoint(value="/{name}",encoders = {ServerEncoder.class})
 public class WebSocketTestService {
     /** WebSocket无法注入Bean，Service等，要在Config文件内进行 @Autowired或其他注入*/
     public static GroupService groupService;
@@ -55,9 +58,9 @@ public class WebSocketTestService {
         }
         webSocketServerMAP.put(uri, this);//保存uri对应的连接服务
         addOnlineCount(); // 在线数加1
-        System.out.println(this);
+//        System.out.println(this);
         System.out.println(this + "有新连接加入！当前在线连接数：" + getOnlineCount());
-        System.out.println(groupService.GetMessage(Integer.parseInt(name)));
+//        System.out.println(groupService.GetMessage(Integer.parseInt(name)));
     }
 
     /**
@@ -81,28 +84,23 @@ public class WebSocketTestService {
      * @throws IOException
      */
     @OnMessage
-    public void onMessage(String message,Session session) throws IOException {
-        //服务器向消息发送者客户端发送消息
-//    System.out.println("onMessage");
+    public void onMessage(String message,Session session) throws IOException, EncodeException {
         System.out.println(message);
         String[] arr=message.split(",",2);
         this.toName=arr[0];
-//        this.session.getBasicRemote().sendText("To" + toName + ":" + arr[1]);
-        //指定员工
-        //获取消息接收者的客户端连接
         StringBuilder receiverUri = new StringBuilder("ws://localhost:8080/");
-        System.out.println(webSocketServerMAP);
-//    System.out.println(receiverUri+name);
         receiverUri.append(toName);//发送信息路径
-        System.out.println(receiverUri);
         WebSocketTestService WebSocketTestService = webSocketServerMAP.get(receiverUri.toString());
-//        if(WebSocketTestService != null){
-//            WebSocketTestService.session.getBasicRemote().sendText("From" +name + ":" + message);
-//        }
-//        else {
-            groupService.SendMessage(toName,name,arr[1]);
-//            this.session.getBasicRemote().sendText("SendSuccess");
-//        }
+        if(WebSocketTestService != null){
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateString = formatter.format(System.currentTimeMillis());
+            Map map=new HashMap();
+            map.put("user_id",name);
+            map.put("message",arr[1]);
+            map.put("date",dateString);
+            WebSocketTestService.session.getBasicRemote().sendObject(map);
+        }
+        groupService.SendMessage(toName,name,arr[1]);
     }
 
     /**
