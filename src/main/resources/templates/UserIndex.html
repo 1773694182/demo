@@ -37,7 +37,7 @@
             <input name="operation" value="view" hidden="hidden">
             <input id="blog_id" name="blog_id" th:value="${bloglist.blog_id}" hidden="hidden">
             <button class="blog_button"><h2 th:text="${bloglist.title}"></h2></button>
-            <div><span th:text="${bloglist.title}"></span></div>
+            <div><span th:text="${bloglist.content}"></span></div>
             <span th:text="${bloglist.date}"></span>
             <span th:text="${bloglist.collection_number}"></span><span>收藏</span>
             <span th:text="${bloglist.like_number}"></span><span>点赞</span>

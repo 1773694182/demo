@@ -38,6 +38,8 @@ public interface BlogMapper {
     void LikeBlog(int blog_id);
 //收藏
     void CollectionBlog(int blog_id);
+    //取消收藏
+    void CancelCollectionBlog(int blog_id);
 //评论
     void CommentBlog(int comment_number,int blog_id);
 //查询

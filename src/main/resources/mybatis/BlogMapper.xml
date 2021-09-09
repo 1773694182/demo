@@ -58,6 +58,10 @@
     <update id="CollectionBlog" parameterType="com.example.demo.Pojo.Blog">
         update blog set collection_number=collection_number+1 where blog_id=#{blog_id};
     </update>
+    <!--    取消收藏-->
+    <update id="CancelCollectionBlog" parameterType="com.example.demo.Pojo.Blog">
+        update blog set collection_number=collection_number-1 where blog_id=#{blog_id};
+    </update>
 <!--    评论-->
 
     <update id="CommentBlog" parameterType="com.example.demo.Pojo.Blog">

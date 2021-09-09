@@ -10,14 +10,37 @@
     <script th:src="@{/js/AutomaticLogon.js}"></script>
 </head>
 <body>
-    <div class="user_fun" th:fragment="user_fun">
-      <a th:href="@{/GetDraftBlog}">草稿箱</a>
-      <a th:href="@{/GetDeleteBlog}">回收站</a>
-      <a th:href="@{/GetFriendsList}">新消息(<span id="NewMessage">0</span>)</a>
-      <a th:href="@{/GetUserInfo}">个人信息</a>
-      <a th:href="@{/index2}">返回主页</a>
-      <a th:href="@{/LoginOut}">退出登录</a>
-      <a th:href="@{/UserPostBlog}">发布博客</a>
+    <div th:fragment="user_fun">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <form class="Search navbar-form navbar-left" th:action="@{/search}">
+                        <div class="form-group">
+                            <input id="KeyWord" th:value="${KeyWord}" name="KeyWord" type="text" class="search_input form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                    <div class="user_fun">
+                        <a th:href="@{/GetDraftBlog}">草稿箱</a>
+                        <a th:href="@{/GetDeleteBlog}">回收站</a>
+                        <a th:href="@{/GetFriendsList}">新消息(<span id="NewMessage">0</span>)</a>
+                        <a th:href="@{/GetUserInfo}">个人信息</a>
+                        <a th:href="@{/index2}">返回主页</a>
+                        <a th:href="@{/LoginOut}">退出登录</a>
+                        <a th:href="@{/UserPostBlog}">发布博客</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </div>
 </body>
 </html>

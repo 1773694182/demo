@@ -1,38 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{/js/jquery-3.6.0.js}"></script>
-    <script th:src="@{/js/LoginAuto.js}"></script>
-
-    <link rel="stylesheet" th:href="@{/css/chat.css}">
-    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script th:src="@{/js/test.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/Common.css}"/>
 </head>
-<body>
-<input hidden="hidden" id="to_user_id" value="2">
-<input hidden="hidden" id="user_id" value="1">
-<div class="all">
-    <div class="talkList">
-        <div class="list">
-            <label>聊天列表</label>
-        </div>
-        <div class="list" th:each="user_list:${user_list}">
-            <img th:src="@{/img/emo_01.gif}">
-            <label th:text="${user_list.name}"></label>
-        </div>
-    </div>
-    <div class="talk">
-        <div class="name" name="name">王一</div>
-        <div class="ShowMessage" id="message"></div>
-        <div class="EnterMessage">
-            <form>
-                <textarea id="sendMsg" class="EnterMessage form-control" placeholder="请输入内容"></textarea>
-                <button onclick="send()" type="button">发送</button>
-            </form>
-        </div>
-    </div>
+<body onload="show()">
+<div th:replace="~{common::user_fun}"></div>
+
+<div class="blog" th:each="bloglist:${blog}">
+    <form class="blog_all" th:action="@{/GetBlogByID}" method="post">
+        <input name="blog_id" th:value="${bloglist.blog_id}" hidden="hidden">
+        <input name="operation" value="view" hidden="hidden">
+        <button class="blog_button"><h2 id="content" th:utext="${bloglist.title}"></h2></button>
+        <div><span th:text="${bloglist.content}"></span></div>
+        <span th:text="${bloglist.date}"></span>
+        <span th:text="${bloglist.collection_number}"></span><span>收藏</span>
+        <span th:text="${bloglist.like_number}"></span><span>点赞</span>
+        <span th:text="${bloglist.view_number}"></span><span>浏览</span>
+    </form>
 </div>
-<script th:src="@{/js/test.js}"></script>
 </body>
 </html>

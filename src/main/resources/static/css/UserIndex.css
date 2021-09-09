@@ -15,7 +15,7 @@
     border: none;
 }
 .blog_button:hover{
-    color: blue;
+    color: red;
 }
 .choose_button{
     margin-left: 7px;

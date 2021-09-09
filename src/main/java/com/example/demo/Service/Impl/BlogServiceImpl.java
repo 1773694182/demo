@@ -63,12 +63,12 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Comment postComment(List<Map<String,Object>> list) {
+    public Comment postComment(List<Map<String,Object>> list,String user_id) {
         Comment comment=new Comment();
         for (int i=0;i<list.size();i++){
             switch (list.get(i).get("name").toString()){
                 case "user_id":
-                    comment.setUser_id(Integer.parseInt(list.get(i).get("value").toString()));
+                    comment.setUser_id(Integer.parseInt(user_id));
                     break;
                 case "blog_id":
                     comment.setBlog_id(Integer.parseInt(list.get(i).get("value").toString()));
@@ -89,12 +89,12 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Replay postReplay(List<Map<String,Object>> list) {
+    public Replay postReplay(List<Map<String,Object>> list,String user_id) {
         Replay replay=new Replay();
         for (int i=0;i<list.size();i++){
             switch (list.get(i).get("name").toString()){
                 case "user_id":
-                    replay.setUser_id(Integer.parseInt(list.get(i).get("value").toString()));
+                    replay.setUser_id(Integer.parseInt(user_id));
                     break;
                 case "comment_id":
                     replay.setComment_id(Integer.parseInt(list.get(i).get("value").toString()));
@@ -137,24 +137,31 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public void LikeBlog(int blog_id,String user_id) {
+    public int LikeBlog(int blog_id,String user_id) {
         System.out.println(user_id);
         if (!redisService.SetHasKey(blog_id+"LikeBlog",user_id)){
             redisService.SetSet(blog_id+"LikeBlog",user_id);
             blogMapper.LikeBlog(blog_id);
+            return 1;
         }
+        return -1;
 //        else{//取消点赞
 //            redisService.SetRemove(blog_id+"LikeBlog",user_id);
 //        }
     }
 
     @Override
-    public void CollectionBlog(int blog_id,String user_id) {
-        if(!redisService.SetHasKey(blog_id+"CollectionBlog",user_id)){
-            redisService.SetSet(blog_id+"CollectionBlog",user_id);
+    public int CollectionBlog(int blog_id,String user_id) {
+        if(!redisService.SetHasKey(user_id+"CollectionBlog",blog_id)){
+            redisService.SetSet(user_id+"CollectionBlog",blog_id);
             blogMapper.CollectionBlog(blog_id);
+            return 1;
         }
-        else redisService.SetRemove(blog_id+"CollectionBlog",user_id);//取消收藏
+        else {
+            redisService.SetRemove(user_id+"CollectionBlog",blog_id);//取消收藏
+            blogMapper.CancelCollectionBlog(blog_id);
+            return -1;
+        }
     }
 
     @Override

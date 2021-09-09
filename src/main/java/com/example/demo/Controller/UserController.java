@@ -91,7 +91,7 @@ public class UserController {
 //查询
     @RequestMapping("/GetUserInfo")
     public String GetUserInfo(@CookieValue("account")Integer user_id,/*@RequestParam("user_id") int user_id,*/ Model model){
-        List<Collection> collectionList=userService.getCollectionBlog(user_id);
+        Set collectionList=userService.getCollectionBlog(user_id);
         List<Blog> blogList=userService.getCollectionBlog(collectionList);
         
 //        System.out.println(userService.getUserInfo(user_id));
@@ -108,7 +108,7 @@ public class UserController {
     }
     @RequestMapping("/GetUserInfoByID")
     public String GetUserInfo(@CookieValue("account")int account,@RequestParam("user_id") int user_id, Model model){
-        List<Collection> collectionList=userService.getCollectionBlog(user_id);
+        Set collectionList=userService.getCollectionBlog(user_id);
         List<Blog> blogList=userService.getCollectionBlog(collectionList);
         model.addAttribute("user_info",userService.getUserInfo(user_id));
         model.addAttribute("user_blog_info",userService.getUserBlogInfo(user_id));

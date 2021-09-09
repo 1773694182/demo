@@ -63,12 +63,14 @@ public class SearchController {
             Blog.add(blogService.getBlogByID(Integer.parseInt(iterator.next().toString())));
         }
         model.addAttribute("blog",Blog);
+        System.out.println(Blog);
         try {
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().print("<input value='"+jsonObject+"' id='show' hidden='hidden'>");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        model.addAttribute("KeyWord",KeyWord);
         return "test2";
     }
 }

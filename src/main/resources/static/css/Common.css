@@ -1,7 +1,15 @@
 .user_fun{
+    margin-top: 15px;
     float: right;
-    margin-right: 20px;
+    margin-right: 15px;
 }
-a{
-    margin-left: 2px;
+.Search{
+    width: 500px;
+    margin-left: 30%;
+}
+.search_input{
+    width: 300px;
+}
+textarea{
+    resize: none;
 }

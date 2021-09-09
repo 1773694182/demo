@@ -45,12 +45,12 @@ public class BlogController {
 
     @ResponseBody
     @RequestMapping("/PostComment")
-    public void postComment(@RequestBody List<Map<String,Object>> list, HttpServletResponse response){
-        Comment comment=blogService.postComment(list);
+    public void postComment(@CookieValue("account")String user_id,@RequestBody List<Map<String,Object>> list, HttpServletResponse response){
+        Comment comment=blogService.postComment(list,user_id);
 //        blogService.CollectionBlog(comment.getBlog_id());
         Map<String,Object>map=new HashMap<>();
         map.put("content",comment.getContent());
-        map.put("user_id",comment.getUser_id());
+        map.put("user_id",user_id);
         map.put("comment_id",comment.getComment_id());
         map.put("blog_id",comment.getBlog_id());
         map.put("date",comment.getDate());
@@ -69,11 +69,12 @@ public class BlogController {
 
     @ResponseBody
     @RequestMapping("/PostReplay")
-    public void postReplay(@RequestBody List<Map<String,Object>> list, HttpServletResponse response){
-        Replay replay=blogService.postReplay(list);
+    public void postReplay(@CookieValue("account")String user_id,@RequestBody List<Map<String,Object>> list, HttpServletResponse response){
+
+        Replay replay=blogService.postReplay(list,user_id);
         Map<String,Object>map=new HashMap<>();
         map.put("content",replay.getContent());
-        map.put("user_id",replay.getUser_id());
+        map.put("user_id",user_id);
         map.put("user_name",replay.getUser_name());
         map.put("comment_id",replay.getComment_id());
         map.put("to_user_id",replay.getTo_user_id());
@@ -143,17 +144,22 @@ public class BlogController {
 
     @RequestMapping("/LikeBlog")
     @ResponseBody
-    public Integer LikeBlog(@RequestParam("blog_id")int blog_id, HttpSession session){
+    public Map LikeBlog(@RequestParam("blog_id")int blog_id, HttpSession session){
         Map map= (Map) redisService.HashGet("user");
-        blogService.LikeBlog(blog_id,String.valueOf(map.get("user_id")));
-        return blogService.getLikeNumber(blog_id);
+        int flag= blogService.LikeBlog(blog_id,String.valueOf(map.get("user_id")));
+        Map map1=new HashMap();
+        map1.put("flag",flag);
+        map1.put("Like_number",blogService.getLikeNumber(blog_id));
+        return map1;
     }
     @RequestMapping("/CollectionBlog")
     @ResponseBody
-    public Integer CollectionBlog(@RequestParam("blog_id")int blog_id,HttpSession session){
-        Map map= (Map) redisService.HashGet("user");
-        blogService.CollectionBlog(blog_id, String.valueOf(map.get("user_id")));
-        return blogService.getCollection(blog_id);
+    public Map CollectionBlog(@CookieValue("account")String account,@RequestParam("blog_id")int blog_id,HttpSession session){
+        int flag=blogService.CollectionBlog(blog_id, account);
+        Map map =new HashMap();
+        map.put("flag",flag);
+        map.put("collection_number",blogService.getCollection(blog_id));
+        return map;
     }
 
 //查询
@@ -168,15 +174,19 @@ public class BlogController {
     }
 
     @RequestMapping("/GetBlogByClassification")
-    public void GetBlogByClassification(@RequestParam("classification")String classification,Model model){
+    public String GetBlogByClassification(@RequestParam("classification")String classification,Model model){
         List<Blog> blog=blogService.getBlogByClassification(classification);
-        model.addAttribute("blog",blog);
+        List<Map<String,Object>> blog_list=blogService.Conformity_blog(blog);
+        model.addAttribute("blog",blog_list);
+        return "index";
     }
 
     @RequestMapping("/GetBlogByLabel")
-    public void GetBlogByLabel(@RequestParam("label")String label,Model model){
+    public String GetBlogByLabel(@RequestParam("label")String label,Model model){
         List<Blog> blog=blogService.getBlogByLabel(label);
-        model.addAttribute("blog",blog);
+        List<Map<String,Object>> blog_list=blogService.Conformity_blog(blog);
+        model.addAttribute("blog",blog_list);
+        return "index";
     }
 
     @RequestMapping("/GetBlogByID")

@@ -9,6 +9,8 @@
     <script th:src="@{/js/CreateTalk.js}"></script>
     <link rel="stylesheet" th:href="@{/css/chat.css}">
     <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/Common.css}"/>
+
 </head>
 <body>
 <div class="all">
@@ -20,7 +22,7 @@
             <div>
                 <button th:onclick="ToChat([[${user_list.user_id}]])">
                     <img th:src="@{/img/emo_01.gif}">
-                    <input th:value="${user_list.user_id}" hidden="hidden">
+                    <input th:id="user_id+${user_list.user_id}" th:value="${user_list.user_id}" hidden="hidden">
                     <label th:id="name+${user_list.user_id}" th:text="${user_list.name}"></label>
                 </button>
             </div>

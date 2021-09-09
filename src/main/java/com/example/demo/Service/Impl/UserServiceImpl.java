@@ -3,14 +3,17 @@ package com.example.demo.Service.Impl;
 import com.example.demo.Mapper.BlogMapper;
 import com.example.demo.Mapper.UserMapper;
 import com.example.demo.Pojo.*;
+import com.example.demo.Service.RedisService;
 import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -19,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private BlogMapper blogMapper;
+    @Autowired
+    private RedisService redisService;
     //增加
     @Override
     public int addUser(User user) {
@@ -114,17 +119,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Collection> getCollectionBlog(int user_id) { return userMapper.getCollectionBlog(user_id); }
+    public Set getCollectionBlog(int user_id) {
+        Set set=redisService.SetGet(user_id+"CollectionBlog");
+        return set;
+    }
 
     @Override
     public User getUserInfoByAccount(String account) {
         return userMapper.getUserInfoByAccount(account);
     }
 
-    public List<Blog> getCollectionBlog(List<Collection> collectionList){
+    public List<Blog> getCollectionBlog(Set collectionList){
         List<Blog>blogList=new ArrayList<>();
-        for (Collection collection : collectionList) {
-            blogList.add(blogMapper.getBlogByID(collection.getBlog_id()));
+        for (Object collection : collectionList) {
+            System.out.println(collection);
+            blogList.add(blogMapper.getBlogByID(Integer.parseInt(String.valueOf(collection))));
         }
         return blogList;
     }

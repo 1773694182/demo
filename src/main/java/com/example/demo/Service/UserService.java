@@ -4,6 +4,7 @@ import com.example.demo.Pojo.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 //    增加
@@ -52,6 +53,6 @@ public interface UserService {
     //    用户安全问题
     SafeQuestion getSafeQuestion(int user_id);
     //用户收藏博客
-    List<Collection> getCollectionBlog(int user_id);
+    Set getCollectionBlog(int user_id);
     User getUserInfoByAccount(String account);
 }

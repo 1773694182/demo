@@ -1,8 +1,23 @@
+body,html{
+    background-color: #f4f4f4;
+}
+
+h2{
+    text-align: left;
+    float: left;
+    width: 900px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 .blog{
-    margin-left: 10%;
+    margin-left: 25%;
+    margin-right: 20%;
     border: black;
+    border: 1px solid #f4f4f4;
 }
 .blog_all{
+    padding-left: 10px;
     background-color: white;
     border: black;
     margin-top: 2px;
@@ -22,7 +37,7 @@
     border: none;
 }
 .blog_button:hover{
-    color: blue;
+    color: red;
 }
 .user_button{
     background-color: white;
@@ -31,3 +46,24 @@
 .user_button:hover{
     color: red;
 }
+.choose{
+    position: fixed;
+    display: inline-block;
+    float: left;
+    margin-left: 18%;
+}
+.choose_label{
+    background-color:white;
+    text-align: center;
+    height: 40px;
+    font-size: 17px;
+}
+.choose_label label{
+    margin-top: 12px;
+}
+.choose_label:hover{
+    background-color: rgba(0,0,0,0.1);
+}
+
+
+

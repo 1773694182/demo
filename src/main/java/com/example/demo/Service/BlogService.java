@@ -13,9 +13,9 @@ public interface BlogService {
 //发布博客
     void postBlog(List<Map<String,Object>> blog) throws IOException;
     //评论
-    Comment postComment(List<Map<String,Object>> comment);
+    Comment postComment(List<Map<String,Object>> comment,String user_id);
     //回复
-    Replay postReplay(List<Map<String,Object>> replay);
+    Replay postReplay(List<Map<String,Object>> replay,String user_id);
 
     //删除
 //删除博客
@@ -31,9 +31,9 @@ public interface BlogService {
     //从草稿箱发布博客
     void postBlogFromDraft(int blog_id);
     //点赞
-    void LikeBlog(int blog_id,String user_id);
+    int LikeBlog(int blog_id,String user_id);
     //收藏
-    void CollectionBlog(int blog_id,String user_id);
+    int CollectionBlog(int blog_id,String user_id);
     //评论
     void CommentBlog(int comment_number,int blog_id);
 
