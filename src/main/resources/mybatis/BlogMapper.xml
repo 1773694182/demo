@@ -67,7 +67,14 @@
     <update id="CommentBlog" parameterType="com.example.demo.Pojo.Blog">
         update blog set comment_number=#{comment_number} where blog_id=#{blog_id};
     </update>
-
+<!--    隐藏博客-->
+    <update id="HideBlog" parameterType="com.example.demo.Pojo.Blog">
+        update blog set state=2 where blog_id=#{blog_id};
+    </update>
+    <!--    取消隐藏博客-->
+    <update id="CancelHideBlog" parameterType="com.example.demo.Pojo.Blog">
+        update blog set state=0 where blog_id=#{blog_id};
+    </update>
 <!--    查询所有博客-->
     <select id="getAllBlog" resultType="com.example.demo.Pojo.Blog">
         select * from blog where state=0;

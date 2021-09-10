@@ -83,7 +83,7 @@ public class BlogServiceImpl implements BlogService {
         comment.setUser_name(userMapper.getUserInfo(comment.getUser_id()).getName());
         comment.setDate(date1);
         comment.setState(0);
-        System.out.println(comment);
+//        System.out.println(comment);
         blogMapper.postComment(comment);
         return comment;
     }
@@ -148,6 +148,16 @@ public class BlogServiceImpl implements BlogService {
 //        else{//取消点赞
 //            redisService.SetRemove(blog_id+"LikeBlog",user_id);
 //        }
+    }
+
+    @Override
+    public void CancelHideBlog(int blog_id) {
+        blogMapper.CancelHideBlog(blog_id);
+    }
+
+    @Override
+    public void HideBlog(int blog_id) {
+        blogMapper.HideBlog(blog_id);
     }
 
     @Override

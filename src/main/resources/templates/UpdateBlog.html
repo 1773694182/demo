@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script th:src="@{/js/jquery-3.6.0.js}"></script>
+  <script th:src="@{/js/UpdateBlog.js}"></script>
+  <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/css/UserPostBlog.css}">
+  <link rel="stylesheet" th:href="@{/css/Common.css}"/>
+
+</head>
+<body>
+<div th:replace="~{common::user_fun}"></div>
+<form id="post">
+  <label for="title">标题</label>
+  <input disabled="disabled" th:value="${blog.title}" name="title" type="text" id="title" class="form-control" aria-describedby="helpBlock">
+  <label for="classification">分类</label>
+  <select name="classification" id="classification" class="form-control">
+    <option th:selected="${blog.classification=='后端'}">后端</option>
+    <option th:selected="${blog.classification=='前端'}">前端</option>
+    <option th:selected="${blog.classification=='.Net'}">.Net</option>
+    <option th:selected="${blog.classification=='小程序开发'}">小程序开发</option>
+    <option th:selected="${blog.classification=='机器学习'}">机器学习</option>
+  </select>
+  <label for="tip">标签</label>
+  <select name="tip" id="tip" class="form-control">
+    <option th:selected="${blog.label=='SpringBoot'}">SpringBoot</option>
+    <option th:selected="${blog.label=='SSM'}">SSM</option>
+    <option th:selected="${blog.label=='网络协议'}">网络协议</option>
+    <option th:selected="${blog.label=='Android'}">Android</option>
+    <option th:selected="${blog.label=='IOS'}">IOS</option>
+  </select>
+  <label for="content">内容</label>
+  <textarea th:text="${blog.content}" name="content" class="form-control" type="text" id="content" aria-describedby="helpBlock"></textarea>
+  <div class="choose">
+    <button type="button" onclick="CancelUpdate(1)" class="btn btn-success">取消修改</button>
+    <button type="button" onclick="UpdateBlog(0)" class="btn btn-danger">发布博客</button>
+  </div>
+</form>
+</body>
+</html>

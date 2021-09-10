@@ -105,7 +105,7 @@ public class BlogController {
 
     public int GetCommentNumber(int blog_id){
         int commentNumber=blogService.getCommentNumber(blog_id);
-        System.out.println("commentNumber"+commentNumber);
+//        System.out.println("commentNumber"+commentNumber);
         List<Integer>list=blogService.getCommentID(blog_id);
         int replay_number=blogService.getReplayNumber(list);
         blogService.CommentBlog(commentNumber+replay_number,blog_id);
@@ -156,12 +156,22 @@ public class BlogController {
     @ResponseBody
     public Map CollectionBlog(@CookieValue("account")String account,@RequestParam("blog_id")int blog_id,HttpSession session){
         int flag=blogService.CollectionBlog(blog_id, account);
+//        System.out.println(flag);
         Map map =new HashMap();
         map.put("flag",flag);
         map.put("collection_number",blogService.getCollection(blog_id));
         return map;
     }
-
+    @ResponseBody
+    @RequestMapping("HideBlog")
+    public void HideBlog(@RequestParam("blog_id")int blog_id) {
+        blogService.HideBlog(blog_id);
+    }
+    @ResponseBody
+    @RequestMapping("CancelHide")
+    public void CancelHide(@RequestParam("blog_id")int blog_id){
+        blogService.CancelHideBlog(blog_id);
+    }
 //查询
     @RequestMapping("/GetAllBlog")
     public String GetAllBlog(Model model,HttpSession session){
@@ -187,6 +197,13 @@ public class BlogController {
         List<Map<String,Object>> blog_list=blogService.Conformity_blog(blog);
         model.addAttribute("blog",blog_list);
         return "index";
+    }
+
+    @RequestMapping("GetBlogToUpdate")
+    public String GetBlogToUpdate(@RequestParam("blog_id")int blog_id,Model model){
+        Blog blog=blogService.getBlogByID(blog_id);
+        model.addAttribute("blog",blog);
+        return "UpdateBlog";
     }
 
     @RequestMapping("/GetBlogByID")

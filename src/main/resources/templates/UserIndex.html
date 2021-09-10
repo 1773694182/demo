@@ -23,6 +23,7 @@
         <ul id="choose" class="nav navbar-nav">
           <li class="choose_button"><label><button class="choose_button" onclick="choose(1)">发布的博客</button></label></li>
           <li class="choose_button"><label><button class="choose_button" onclick="choose(2)">收藏的博客</button></label></li>
+          <li class="choose_button"><label><button class="choose_button" onclick="choose(3)">关注的人</button></label></li>
         </ul>
         <form id="search" class="navbar-form navbar-left">
           <div class="form-group">
@@ -36,6 +37,14 @@
           <form class="blog_all" th:action="@{/GetBlogByID}" method="post">
             <input name="operation" value="view" hidden="hidden">
             <input id="blog_id" name="blog_id" th:value="${bloglist.blog_id}" hidden="hidden">
+            <button type="button" class="FollowButton btn btn-danger" th:onclick="DeleteBlog([[${bloglist.blog_id}]])">删除</button>
+            <a class="FollowButton btn btn-success" th:href="@{/GetBlogToUpdate?blog_id={ID}(ID=${bloglist.blog_id})}">修改</a>
+            <div style="display: block" th:switch="${bloglist.state}" th:id="switch+${bloglist.blog_id}">
+              <button th:case="'2'" type="button" class="FollowButton btn btn-default" th:onclick="CancelHide([[${bloglist.blog_id}]])">取消隐藏</button>
+              <button th:case="*" type="button" class="FollowButton btn btn-default" th:onclick="HideBlog([[${bloglist.blog_id}]])">隐藏</button>
+            </div>
+            <button style="display: none" th:id="'CancelHide'+${bloglist.blog_id}" type="button" class="FollowButton btn btn-default" th:onclick="CancelHide([[${bloglist.blog_id}]])">取消隐藏</button>
+            <button style="display: none" th:id="'HideBlog'+${bloglist.blog_id}" type="button" class="FollowButton btn btn-default" th:onclick="HideBlog([[${bloglist.blog_id}]])">隐藏</button>
             <button class="blog_button"><h2 th:text="${bloglist.title}"></h2></button>
             <div><span th:text="${bloglist.content}"></span></div>
             <span th:text="${bloglist.date}"></span>
@@ -51,11 +60,24 @@
             <input name="operation" value="view" hidden="hidden">
             <input id="collection_blog_id" name="blog_id" th:value="${bloglist.blog_id}" hidden="hidden">
             <button class="blog_button"><h2 th:text="${bloglist.title}"></h2></button>
+            <button type="button" th:id="CancelCollection+${bloglist.blog_id}" class="FollowButton btn-danger btn" th:onclick="CancelCollection([[${bloglist.blog_id}]])">取消收藏</button>
+            <button type="button" th:id="Collection+${bloglist.blog_id}" class="FollowButton btn-success btn" th:onclick="Collection([[${bloglist.blog_id}]])" style="display: none">收藏</button>
             <div><span th:text="${bloglist.title}"></span></div>
             <span th:text="${bloglist.date}"></span>
             <span th:text="${bloglist.collection_number}"></span><span>收藏</span>
             <span th:text="${bloglist.like_number}"></span><span>点赞</span>
             <span th:text="${bloglist.view_number}"></span><span>浏览</span>
+
+          </form>
+        </div>
+      </div>
+      <div id="follow_user" style="display: none">
+        <div class="blog_all" th:each="user_list:${user_follow}">
+          <form class="user_list" th:action="@{/GetUserInfoByID}">
+            <input hidden="hidden" th:value="${user_list.user_id}">
+            <button class="blog_button"><h2 th:text="${user_list.name}"></h2></button>
+            <button type="button" th:id="CancelButton+${user_list.user_id}" class="FollowButton btn btn-danger" th:onclick="CancelFollow([[${user_list.user_id}]])">取消关注</button>
+            <button type="button" th:id="FollowButton+${user_list.user_id}" class="FollowButton btn btn-success" th:onclick="Follow([[${user_list.user_id}]])" style="display: none">关注</button>
           </form>
         </div>
       </div>

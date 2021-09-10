@@ -55,4 +55,6 @@ public interface UserService {
     //用户收藏博客
     Set getCollectionBlog(int user_id);
     User getUserInfoByAccount(String account);
+    //得到收藏列表
+    List<User> getFollowList(String account);
 }

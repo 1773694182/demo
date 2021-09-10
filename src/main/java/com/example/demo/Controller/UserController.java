@@ -10,10 +10,7 @@ import com.example.demo.Service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -53,12 +50,20 @@ public class UserController {
         userService.addSafeQuestion(safeQuestion);
         return "redirect:/login";
     }
-
+    @ResponseBody
     @RequestMapping("/AddFriend")
     public void AddFriend(@CookieValue("account")Integer account,@RequestParam("FriendID")String FriendID){
         redisService.SetSet("FriendOf"+account,FriendID);
+        return;
     }
 //删除
+    @ResponseBody
+    @RequestMapping("/CancelFollow")
+    public void CancelFollow(@CookieValue("account")Integer account,@RequestParam("FriendID")String FriendID){
+//        System.out.println(account+","+FriendID);
+        redisService.SetRemove("FriendOf"+account,FriendID);
+        return;
+    }
     @RequestMapping("/DeleteSafeQuestion")
     public void deleteSafeQuestion(@RequestParam("user_id")int user_id){
         userService.deleteSafeQuestion(user_id);
@@ -104,6 +109,7 @@ public class UserController {
         model.addAttribute("user_blog_info",userService.getUserBlogInfo(user_id));
         model.addAttribute("user_blog",blogService.getBlogByUser(user_id));
         model.addAttribute("user_collection",blogList);
+        model.addAttribute("user_follow",userService.getFollowList(String.valueOf(user_id)));
         return "UserIndex";
     }
     @RequestMapping("/GetUserInfoByID")
@@ -114,6 +120,7 @@ public class UserController {
         model.addAttribute("user_blog_info",userService.getUserBlogInfo(user_id));
         model.addAttribute("user_blog",blogService.getBlogByUser(user_id));
         model.addAttribute("user_collection",blogList);
+        model.addAttribute("user_follow",userService.getFollowList(String.valueOf(account)));
         if (account==user_id)
             return "UserIndex";
         else
@@ -144,13 +151,13 @@ public class UserController {
     public String GetFriendsList(@CookieValue("account")String account,Model model){
         Set<Object> set=redisService.SetGet("FriendOf"+account);
         List<User> list=new ArrayList<>();
-        System.out.println(set);
+//        System.out.println(set);
         for (Object id:set){
-            System.out.println(id);
+//            System.out.println(id);
             list.add(userService.getUserInfo(Integer.parseInt((String) id)));
         }
         model.addAttribute("user_list",list);
-        System.out.println(list);
+//        System.out.println(list);
         return "chat";
     }
 }

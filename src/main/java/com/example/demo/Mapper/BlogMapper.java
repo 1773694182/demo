@@ -40,6 +40,10 @@ public interface BlogMapper {
     void CollectionBlog(int blog_id);
     //取消收藏
     void CancelCollectionBlog(int blog_id);
+    //隐藏博客
+    void HideBlog(int blog_id);
+    //取消隐藏博客
+    void CancelHideBlog(int blog_id);
 //评论
     void CommentBlog(int comment_number,int blog_id);
 //查询

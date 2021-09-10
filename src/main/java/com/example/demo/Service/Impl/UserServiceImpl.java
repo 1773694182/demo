@@ -13,6 +13,7 @@ import javax.swing.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -132,9 +133,22 @@ public class UserServiceImpl implements UserService {
     public List<Blog> getCollectionBlog(Set collectionList){
         List<Blog>blogList=new ArrayList<>();
         for (Object collection : collectionList) {
-            System.out.println(collection);
+//            System.out.println(collection);
             blogList.add(blogMapper.getBlogByID(Integer.parseInt(String.valueOf(collection))));
         }
         return blogList;
+    }
+
+    @Override
+    public List<User> getFollowList(String account) {
+        Set<Object> set=redisService.SetGet("FriendOf"+account);
+        List<User> list=new ArrayList<>();
+        for (Object o:set){
+//            System.out.println(o);
+            list.add(userMapper.getUserInfo(Integer.valueOf((String) o)));
+        }
+//        System.out.println(list);
+        return list;
+
     }
 }
