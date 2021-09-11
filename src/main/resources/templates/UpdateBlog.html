@@ -13,6 +13,7 @@
 <body>
 <div th:replace="~{common::user_fun}"></div>
 <form id="post">
+  <input hidden="hidden" name="blog_id" th:value="${blog.blog_id}">
   <label for="title">标题</label>
   <input disabled="disabled" th:value="${blog.title}" name="title" type="text" id="title" class="form-control" aria-describedby="helpBlock">
   <label for="classification">分类</label>
@@ -34,8 +35,8 @@
   <label for="content">内容</label>
   <textarea th:text="${blog.content}" name="content" class="form-control" type="text" id="content" aria-describedby="helpBlock"></textarea>
   <div class="choose">
-    <button type="button" onclick="CancelUpdate(1)" class="btn btn-success">取消修改</button>
-    <button type="button" onclick="UpdateBlog(0)" class="btn btn-danger">发布博客</button>
+    <a type="button" th:href="@{/UserIndex}" class="btn btn-success">取消修改</a>
+    <button type="button" onclick="UpdateBlog()" class="btn btn-danger">发布博客</button>
   </div>
 </form>
 </body>

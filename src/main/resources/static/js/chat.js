@@ -23,24 +23,11 @@ websocket.onmessage = function(event) {
     console.log(event.data)
     // console.log()
     var info =JSON.parse(event.data)
-    var box=document.getElementById("message")
-    var p=document.createElement("div")
-    var t=document.createElement("p")
-    t.innerText=info.date
-    t.setAttribute("class","date")
-    p.appendChild(t)
 
-    t=document.createElement("label")
-    if (info.user_id==account)
-        t.setAttribute("class","MyMessage")
-    else
-        t.setAttribute("class","UserMessage")
-    t.innerText=info.message
-    p.appendChild(t)
-    box.appendChild(p)
+    CreateMessage(info.user_id,info.date,info.message)
     var scrollTarget = document.getElementById("message");
     scrollTarget.scrollTop=scrollTarget.scrollHeight;
-    // setMessageInnerHTML(event.data);
+
 }
 
 //连接关闭的回调方法
@@ -73,19 +60,8 @@ function send() {
     var date=null
     date=GetDate()
 
-    var box=document.getElementById("message")
-    var p=document.createElement("div")
-    var t=document.createElement("p")
-    console.log(date)
-    t.innerText=date
-    t.setAttribute("class","date")
-    p.appendChild(t)
-    t=document.createElement("label")
-    t.setAttribute("class","MyMessage")
-    t.innerText=message
-    p.appendChild(t)
-    box.appendChild(p)
     document.getElementById("sendMsg").value=""
+    CreateMessage(account,date,message)
     var scrollTarget = document.getElementById("message");
     scrollTarget.scrollTop=scrollTarget.scrollHeight;
 

@@ -45,19 +45,31 @@ function CreateTalk(){
 }
 function CreateMessage(user_id,date,message) {
     var box=document.getElementById("message")
-    var p=document.createElement("div")
-    var t=document.createElement("p")
-    t.innerText=date
-    t.setAttribute("class","date")
-    p.appendChild(t)
 
-    t=document.createElement("label")
+    var p=document.createElement("div")
+    p.setAttribute("class","MessageInfo")
+
+    var k=document.createElement("div")
+    k.setAttribute("class","date")
+    var t=document.createElement("span")
+    t.innerText=date
+    k.appendChild(t)
+    p.appendChild(k)
+
+    var k=document.createElement("div")
+    t=document.createElement("span")
     if (user_id==account)
-        t.setAttribute("class","MyMessage")
+        k.setAttribute("class","MyMessage")
     else
-        t.setAttribute("class","UserMessage")
+        k.setAttribute("class","UserMessage")
+    var m=document.createElement("div")
+    m.setAttribute("style","background-color: #0e90d2;")
     t.innerText=message
-    p.appendChild(t)
+    m.appendChild(t)
+    k.appendChild(m)
+    p.appendChild(k)
+
+    console.log(message)
     box.appendChild(p)
 }
 function GetDate() {

@@ -31,16 +31,62 @@
     border:1px solid black;
 }
 .UserMessage{
+    height: 50%;
     margin-left: 10px;
-    float: left;
-}
-.MyMessage{
-    float: right;
-    margin-right: 10px;
-}
-.date{
-    margin-left: 45%;
     width: 100%;
+    text-align: left;
+    float: left;
+    /*background-color: #0e90d2;*/
+}
+.UserMessage div{
+    *display:inline;
+    *zoom:1;
+    float: left;
+    max-width:200px;
+    text-align: left;
+    color: white;
+    padding: 10px;
+    border-radius:25px;
+}
+/*.UserMessage span{*/
+/*    width: 200px;*/
+/*    color: white;*/
+
+/*    padding-left: 10px;*/
+/*    padding-right: 10px;*/
+/*    !*border-radius:25px;*!*/
+/*}*/
+.MyMessage{
+    height: 50%;
+    float: right;
+    width: 100%;
+    text-align: right;
+    margin-right: 10px;
+    /*background-color: #0e90d2;*/
+}
+.MyMessage div{
+    max-width:200px;
+    *display:inline;
+    *zoom:1;
+    float: right;
+    text-align: left;
+    color: white;
+    padding: 10px;
+    border-radius:25px;
+}
+/*.MyMessage span{*/
+    /*width: 200px;*/
+    /*text-align: left;*/
+    /*color: white;*/
+
+    /*padding-left: 10px;*/
+    /*padding-right: 10px;*/
+    /*border-radius:25px;*/
+/*}*/
+.date{
+    text-align: left;
+    height: 50%;
+    margin-left: 45%;
 }
 .name{
     padding-top: 13px;
@@ -68,4 +114,10 @@ textarea{
 }
 button{
     float: right;
+}
+.MessageInfo{
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }

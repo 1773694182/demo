@@ -32,24 +32,24 @@ public class BlogServiceImpl implements BlogService {
     private RedisService redisService;
     @Override
     public void postBlog(List<Map<String,Object>> list) throws IOException {
-        Blog blog=new Blog();
-        for (int i=0;i<list.size();i++){
-            switch (list.get(i).get("name").toString()){
-                case "title":
-                    blog.setTitle(list.get(i).get("value").toString());
-                    break;
-                case "classification":
-                    blog.setClassification(list.get(i).get("value").toString());
-                    break;
-                case "tip":
-                    blog.setLabel(list.get(i).get("value").toString());
-                    break;
-                case "content":
-                    blog.setContent(list.get(i).get("value").toString());
-                    break;
-                case "state":
-                    blog.setState(Integer.parseInt(list.get(i).get("value").toString()));
-            }
+        Blog blog=GetBlogInfo(list);
+//        for (int i=0;i<list.size();i++){
+//            switch (list.get(i).get("name").toString()){
+//                case "title":
+//                    blog.setTitle(list.get(i).get("value").toString());
+//                    break;
+//                case "classification":
+//                    blog.setClassification(list.get(i).get("value").toString());
+//                    break;
+//                case "tip":
+//                    blog.setLabel(list.get(i).get("value").toString());
+//                    break;
+//                case "content":
+//                    blog.setContent(list.get(i).get("value").toString());
+//                    break;
+//                case "state":
+//                    blog.setState(Integer.parseInt(list.get(i).get("value").toString()));
+//            }
             java.util.Date date=new Timestamp(System.currentTimeMillis());
             Timestamp date1=new Timestamp(date.getTime());
             blog.setUser_id(1);
@@ -58,7 +58,7 @@ public class BlogServiceImpl implements BlogService {
             blog.setView_number(0);
             blog.setDate(date1);
             blog.setComment_number(0);
-        }
+//        }
         blogMapper.postBlog(blog);
     }
 
@@ -127,10 +127,36 @@ public class BlogServiceImpl implements BlogService {
     public void deleteReplay(int replay_id) { blogMapper.deleteReplay(replay_id); }
 
     @Override
-    public void updateBlog(String content, String label, String classification, String title, int blog_id) {
-        blogMapper.updateBlog(content,label,classification,title,blog_id);
+    public void updateBlog(List<Map<String,Object>>list) {
+        Blog blog=GetBlogInfo(list);
+        System.out.println(blog);
+        blogMapper.updateBlog(blog);
     }
-
+    public Blog GetBlogInfo(List<Map<String,Object>>list){
+        Blog blog=new Blog();
+        for (int i=0;i<list.size();i++){
+            switch (list.get(i).get("name").toString()){
+                case "title":
+                    blog.setTitle(list.get(i).get("value").toString());
+                    break;
+                case "classification":
+                    blog.setClassification(list.get(i).get("value").toString());
+                    break;
+                case "tip":
+                    blog.setLabel(list.get(i).get("value").toString());
+                    break;
+                case "content":
+                    blog.setContent(list.get(i).get("value").toString());
+                    break;
+                case "state":
+                    blog.setState(Integer.parseInt(list.get(i).get("value").toString()));
+                    break;
+                case "blog_id":
+                    blog.setBlog_id(Integer.parseInt(list.get(i).get("value").toString()));
+            }
+        }
+        return blog;
+    }
     @Override
     public void postBlogFromDraft(int blog_id) {
         blogMapper.postBlogFromDraft(blog_id);

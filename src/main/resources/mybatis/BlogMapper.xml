@@ -41,7 +41,7 @@
 <!--    修改博客内容-->
     <update id="updateBlog" parameterType="com.example.demo.Pojo.Blog">
         update blog set content=#{content},label=#{label},
-        classification=#{classification},title=#{title} where blog_id=#{blog_id};
+        classification=#{classification} where blog_id=#{blog_id};
     </update>
 
 <!--从草稿箱内发布博客-->

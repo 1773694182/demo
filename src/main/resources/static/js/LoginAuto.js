@@ -15,13 +15,13 @@ $.ajax({
     type:"post",
     data:{"account":account,"pwd":pwd},
     success:function (data) {
-        switch (data){
-            case "0":
-                alert("登录失败")
-                break
-            case "1":
-                alert("登录成功")
-                break
-        }
+        // switch (data){
+        //     case "0":
+        //         alert("登录失败")
+        //         break
+        //     case "1":
+        //         alert("登录成功")
+        //         break
+        // }
     }
 })

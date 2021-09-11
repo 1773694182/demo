@@ -27,7 +27,7 @@ public interface BlogService {
 
     //修改
 //修改博客内容
-    void updateBlog(String content,String label,String classification,String title,int blog_id);
+    void updateBlog(List<Map<String,Object>>list);
     //从草稿箱发布博客
     void postBlogFromDraft(int blog_id);
     //点赞

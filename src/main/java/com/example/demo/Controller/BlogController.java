@@ -130,10 +130,10 @@ public class BlogController {
     }
 
 //修改
+    @ResponseBody
     @RequestMapping("UpdateBlog")
-    public void updateBlog(@RequestBody Map<String,Object>map){
-        blogService.updateBlog((String)map.get("content"), (String) map.get("label"),
-                (String) map.get("classification"),(String) map.get("title"),(int) map.get("blog_id"));
+    public void updateBlog(@RequestBody List<Map<String,Object>>map){
+        blogService.updateBlog(map);
     }
     @RequestMapping("PostBlogFromDraft")
     public String PostBlogFromDraft(@CookieValue("account")String user_id,Model model,@RequestParam("blog_id")int blog_id){
