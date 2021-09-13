@@ -31,10 +31,16 @@ function creatReplayForm(x) {
         async: false,
         success:function (data){
             console.log("OK")
+            console.log(data)
             remove_textarea("replay_textarea")
             remove_textarea("comment_textarea")
             remove_button()
-            data=JSON.parse(data)
+            try{
+                data=JSON.parse(data)
+            }catch (e) {
+                window.location.href="login"
+            }
+
             var box=document.getElementById("comment_form"+data.comment_id).parentNode
             var t=document.createElement("div")
             t.setAttribute("class","replay")
@@ -106,7 +112,11 @@ function postComment(){
         contentType:"application/json; charset=utf-8",
         data: JSON.stringify(x),
         success:function (data){
-            data=JSON.parse(data)
+            try{
+                data=JSON.parse(data)
+            }catch (e) {
+                window.location.href="login"
+            }
             remove_textarea("replay_textarea")
             remove_textarea("comment_textarea")
             remove_button()

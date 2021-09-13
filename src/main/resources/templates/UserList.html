@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/LoginAuto.js}"></script>
 </head>
 <body>
-<form action="/GetUserList">
-  <button>get</button>
-</form>
+<div shiro:hasPermission="DeleteAllUser">删除</div>
+<div shiro:hasPermission="DeleteAllUser">添加</div>
 </body>
 </html>

@@ -1,3 +1,7 @@
+body{
+    background: url(/image/bg.jpg) no-repeat;
+    background-size: cover;
+}
 .user_fun{
     margin-top: 15px;
     float: right;

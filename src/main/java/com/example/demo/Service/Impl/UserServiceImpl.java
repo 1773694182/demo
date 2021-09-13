@@ -120,6 +120,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<String> GetUserJurisdiction(String role) {
+        return userMapper.GetUserJurisdiction(role);
+    }
+
+    @Override
     public Set getCollectionBlog(int user_id) {
         Set set=redisService.SetGet(user_id+"CollectionBlog");
         return set;

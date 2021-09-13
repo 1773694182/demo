@@ -99,5 +99,8 @@
     <select id="getEmail" resultType="String">
         select email from user where email=#{email};
     </select>
-
+<!--查询权限-->
+    <select id="GetUserJurisdiction" resultType="String">
+       select jurisdiction from jurisdiction_table where role=#{role};
+    </select>
 </mapper>

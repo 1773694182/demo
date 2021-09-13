@@ -42,25 +42,41 @@ public class LoginController {
     private RedisService redisService;
     @Autowired
     private CookieService cookieService;
+    @ResponseBody
     @RequestMapping("/loginByShiro")
     public String loginByShiro(Model model, @RequestParam("account")String account, @RequestParam("password") String password,
-                               HttpSession session, HttpServletRequest request){
+                                @RequestParam("op")String op, HttpServletRequest request,HttpServletResponse response){
+        System.out.println("登录");
         Subject subject= SecurityUtils.getSubject();
-        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
-        UsernamePasswordToken token=new UsernamePasswordToken(account,md5Password);
+        String md5Password=null;
+        String user_id=null;
+        User user=new User();
+        if (op.equals("input")){
+            md5Password= DigestUtils.md5DigestAsHex(password.getBytes());
+            user=userService.getUserInfoByAccount(account);
+            user_id=String.valueOf(user.getUser_id());
+            Map<String,Object>map=new HashMap<>();
+            map.put("user_id",user.getUser_id());
+            map.put("account",user.getAccount());
+            map.put("name",user.getName());
+            redisService.HashSet("user", map );
+        }
+        else if(op.equals("auto")){
+            md5Password=password;
+            user_id=account;
+        }
+        UsernamePasswordToken token=new UsernamePasswordToken(user_id,md5Password);
         try{
-            System.out.println("去认证");
             subject.login(token);
         }catch (UnknownAccountException e){
             model.addAttribute("msg","用户名错误");
-            return "loginTest";
+            return "0";
         }catch (IncorrectCredentialsException e){
             model.addAttribute("msg","密码错误");
-            return "loginTest";
+            return "0";
         }
-        request.getSession().setAttribute("user_id",userService.getUserInfoByAccount(account).getUser_id());
-        session.setAttribute("user_id",userService.getUserInfoByAccount(account).getUser_id());
-        return "index2";
+        cookieService.CookieCreate(response,request,user_id,md5Password);
+        return "1";
     }
     @ResponseBody
     @RequestMapping("/login_check")
@@ -81,9 +97,10 @@ public class LoginController {
             return "0";
         }
     }
+    @ResponseBody
     @RequestMapping("/LoginByEmail")
     public String login(@RequestParam("Email")String email, @RequestParam("VerificationCode")int VerificationCode,
-                        RedirectAttributes attributes, HttpSession session){
+                        HttpServletRequest request, HttpServletResponse response){
         if (loginService.login(email, VerificationCode))
         {
             User user=userService.getUserInfoByEmail(email);
@@ -94,20 +111,21 @@ public class LoginController {
 //            System.out.println("login_id:"+user.getUser_id());
 //            session.setAttribute("user_id",user.getUser_id());
             redisService.HashSet("user", map );
-            return "redirect:/index2";
+            cookieService.CookieCreate(response,request, String.valueOf(user.getUser_id()),String.valueOf(user.getPwd()));
+            return "1";
         }
         else {
 //            attributes.addFlashAttribute("email",email);
 //            attributes.addFlashAttribute("VerificationCode",VerificationCode);
 //            attributes.addFlashAttribute("login_way","email");
-            return "redirect:/login";
+            return "0";
         }
     }
-    @RequestMapping("/CookieCreate")
-    public String CookieCreate(HttpServletResponse response, HttpServletRequest request){
-//        cookieService.CookieCreate(response,request,"testcookie");
-        return "test";
-    }
+//    @RequestMapping("/CookieCreate")
+//    public String CookieCreate(HttpServletResponse response, HttpServletRequest request){
+////        cookieService.CookieCreate(response,request,"testcookie");
+//        return "test";
+//    }
 
     @RequestMapping("/CreateVerificationCode")
     public void CreateVerificationCode(@RequestParam("Email")String email,@RequestParam("operation")String operation,
@@ -146,15 +164,10 @@ public class LoginController {
     @RequestMapping("/AutomaticLogon")
     public String AutomaticLogon(@RequestParam("account")String account,HttpServletRequest request,
                                  @RequestParam("pwd")String pwd){
+//        String url="loginByShiro?account"+=account+"&password="+pwd;
+//        return url;
         Cookie[] cookies=request.getCookies();
-//        System.out.println(account);
-//        System.out.println(pwd);
-//        for (int i=0;i<cookies.length;i++) {
-//            System.out.println(cookies[i].getName());
-//            System.out.println(cookies[i].getValue());
-//        }
         boolean flag=false;
-//        System.out.println(cookies.length);
         for (Cookie cookie:cookies){
             if (cookie.getName().equals("account"))
                 if(cookie.getValue().equals(account))
@@ -170,8 +183,6 @@ public class LoginController {
                     flag=false;
                     break;
                 }
-//            System.out.println(cookie.getName());
-//            System.out.println(cookie.getValue());
         }
         if (flag){
             User user=userService.getUserInfo(Integer.parseInt(account));
@@ -187,12 +198,18 @@ public class LoginController {
     public String LoginOut(HttpServletRequest request,HttpServletResponse response){
         Cookie account = new Cookie("account", "");
         Cookie pwd = new Cookie("pwd", "");
+        Cookie state = new Cookie("state", "");
         account.setMaxAge(0);
         pwd.setMaxAge(0);
+        state.setMaxAge(0);
         account.setPath(request.getContextPath());
         pwd.setPath(request.getContextPath());
+        state.setPath(request.getContextPath());
         response.addCookie(account);
         response.addCookie(pwd);
+        response.addCookie(state);
+        Subject subject= SecurityUtils.getSubject();
+        subject.logout();
         return "/login";
     }
 }

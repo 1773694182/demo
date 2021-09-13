@@ -57,4 +57,6 @@ public interface UserService {
     User getUserInfoByAccount(String account);
     //得到收藏列表
     List<User> getFollowList(String account);
+    //查询权限
+    List<String> GetUserJurisdiction(String role);
 }

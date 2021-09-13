@@ -1,5 +1,6 @@
 body,html{
-    background-color: #f4f4f4;
+    background: url(/image/bg.jpg) no-repeat;
+    background-size: cover;
 }
 
 h2{
@@ -40,13 +41,15 @@ h2{
     color: red;
 }
 .user_button{
-    float: right;
-    margin-top: 30px;
-    margin-right: 15px;
+    float: left;
+    border: none;
+    background-color: white;
+    /*margin-top: 30px;*/
+    /*margin-right: 15px;*/
 }
-/*.user_button:hover{*/
-/*    color: red;*/
-/*}*/
+.user_button:hover{
+    color: red;
+}
 .choose{
     position: fixed;
     display: inline-block;

@@ -56,5 +56,7 @@ public interface UserMapper {
     List<Collection> getCollectionBlog(int user_id);
     //查询邮箱是否已注册
     String getEmail(String email);
+    //查询权限
+    List<String> GetUserJurisdiction(String role);
 
 }

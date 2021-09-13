@@ -96,6 +96,7 @@ public class UserController {
 //查询
     @RequestMapping("/GetUserInfo")
     public String GetUserInfo(@CookieValue("account")Integer user_id,/*@RequestParam("user_id") int user_id,*/ Model model){
+        System.out.println(user_id);
         Set collectionList=userService.getCollectionBlog(user_id);
         List<Blog> blogList=userService.getCollectionBlog(collectionList);
         
@@ -110,10 +111,12 @@ public class UserController {
         model.addAttribute("user_blog",blogService.getBlogByUser(user_id));
         model.addAttribute("user_collection",blogList);
         model.addAttribute("user_follow",userService.getFollowList(String.valueOf(user_id)));
+        System.out.println(blogList);
         return "UserIndex";
     }
     @RequestMapping("/GetUserInfoByID")
     public String GetUserInfo(@CookieValue("account")int account,@RequestParam("user_id") int user_id, Model model){
+
         Set collectionList=userService.getCollectionBlog(user_id);
         List<Blog> blogList=userService.getCollectionBlog(collectionList);
         model.addAttribute("user_info",userService.getUserInfo(user_id));
@@ -157,7 +160,7 @@ public class UserController {
             list.add(userService.getUserInfo(Integer.parseInt((String) id)));
         }
         model.addAttribute("user_list",list);
-//        System.out.println(list);
+        System.out.println(list);
         return "chat";
     }
 }

@@ -46,6 +46,8 @@ public class BlogController {
     @ResponseBody
     @RequestMapping("/PostComment")
     public void postComment(@CookieValue("account")String user_id,@RequestBody List<Map<String,Object>> list, HttpServletResponse response){
+        System.out.println("评论");
+
         Comment comment=blogService.postComment(list,user_id);
 //        blogService.CollectionBlog(comment.getBlog_id());
         Map<String,Object>map=new HashMap<>();
@@ -70,7 +72,7 @@ public class BlogController {
     @ResponseBody
     @RequestMapping("/PostReplay")
     public void postReplay(@CookieValue("account")String user_id,@RequestBody List<Map<String,Object>> list, HttpServletResponse response){
-
+        System.out.println("回复");
         Replay replay=blogService.postReplay(list,user_id);
         Map<String,Object>map=new HashMap<>();
         map.put("content",replay.getContent());
@@ -131,7 +133,7 @@ public class BlogController {
 
 //修改
     @ResponseBody
-    @RequestMapping("UpdateBlog")
+    @RequestMapping("UpdateBlogUpdateBlog")
     public void updateBlog(@RequestBody List<Map<String,Object>>map){
         blogService.updateBlog(map);
     }

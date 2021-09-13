@@ -5,9 +5,10 @@ function checkAccount(){
         document.getElementById("msg").innerText="账号或密码为空"
     }
     else {
-        $.ajax({
-            url: "login_check",
-            data: {"account":account.value,"password":password.value},
+    $.ajax({
+            // url: "login_check",
+            url: "loginByShiro",
+            data: {"account":account.value,"password":password.value,"op":"input"},
             type: "post",
             success:function (data){
                 console.log(data)
@@ -30,7 +31,26 @@ function checkEmail() {
     if (email.value===""||VerificationCode.value===""){
         document.getElementById("msg").innerText="账号或密码为空"
     }
-    else window.location.href="LoginByEmail?Email="+email.value+"&VerificationCode="+VerificationCode.value
+    else{
+        $.ajax({
+            // url: "login_check",
+            url: "LoginByEmail",
+            data: {"Email":email.value,"VerificationCode":VerificationCode.value,"op":"input"},
+            type: "post",
+            success:function (data){
+                console.log(data)
+                switch (data){
+                    case "0":
+                        document.getElementById("msg").innerText="邮箱或验证码错误"
+                        break
+                    case "1":
+                        window.location.href="index2"
+                        break
+                }
+
+            }
+        })
+    }
 }
 function ChooseWay(x){
     switch (x){
