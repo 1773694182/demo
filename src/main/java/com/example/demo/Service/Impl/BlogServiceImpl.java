@@ -121,6 +121,53 @@ public class BlogServiceImpl implements BlogService {
     public void deleteBlog(int blog_id) { blogMapper.deleteBlog(blog_id); }
 
     @Override
+    public void ReportComment(int comment_id) {
+        blogMapper.ReportComment(comment_id);
+    }
+
+    @Override
+    public List<Map> getCommentByUser(int user_id) {
+        List<Comment> commentList=blogMapper.getCommentByUser(user_id);
+        List<Map> list=new ArrayList();
+//        System.out.println(commentList);
+        for (Comment comment:commentList){
+            Map map=new HashMap();
+            Blog blog=blogMapper.getBlogByID(comment.getBlog_id());
+            map.put("blog_title",blog.getTitle());
+            map.put("comment_id",comment.getComment_id());
+            map.put("blog_id",comment.getBlog_id());
+            map.put("mycomment",comment.getContent());
+            list.add(map);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Map> getReplayByUser(int user_id) {
+        List<Replay> replayList=blogMapper.getReplayByUser(user_id);
+        List<Map> list=new ArrayList();
+//        System.out.println(replayList);
+        for (Replay replay:replayList){
+            Map map=new HashMap();
+//            System.out.println(replay.getComment_id());
+            Comment comment=blogMapper.getCommentByID(replay.getComment_id());
+            Blog blog=blogMapper.getBlogByID(comment.getBlog_id());
+            map.put("blog_id",blog.getBlog_id());
+            map.put("blog_title",blog.getTitle());
+            map.put("replaycontent",comment.getContent());
+            map.put("myreplay",replay.getContent());
+            map.put("myreplay_id",replay.getReplay_id());
+            list.add(map);
+        }
+        return list;
+    }
+
+    @Override
+    public void ReportReplay(int replay_id) {
+        blogMapper.ReportReplay(replay_id);
+    }
+
+    @Override
     public void deleteComment(int comment_id) { blogMapper.deleteComment(comment_id); }
 
     @Override

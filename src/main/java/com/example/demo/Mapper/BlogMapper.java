@@ -22,6 +22,9 @@ public interface BlogMapper {
     void postReplay(Replay replay);
 
 //删除
+    //举报评论和回复
+    void ReportComment(int comment_id);
+    void ReportReplay(int replay_id);
 //删除博客
     void deleteBlog(int blog_id);
 //删除评论
@@ -61,6 +64,12 @@ public interface BlogMapper {
     List<Comment> getComment(int blog_id);
 //查询评论的回复信息
     List<Replay> getReplay(int comment_id);
+    //查询博客的评论信息
+    List<Comment> getCommentByUser(int user_id);
+    //查询博客的评论信息
+    Comment getCommentByID(int comment_id);
+    //查询评论的回复信息
+    List<Replay> getReplayByUser(int user_id);
 //查询草稿箱
     List<Blog> getDraftBlogByUser(int user_id);
 //查询回收站

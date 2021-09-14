@@ -27,7 +27,6 @@ websocket.onmessage = function(event) {
     CreateMessage(info.user_id,info.date,info.message)
     var scrollTarget = document.getElementById("message");
     scrollTarget.scrollTop=scrollTarget.scrollHeight;
-
 }
 
 //连接关闭的回调方法

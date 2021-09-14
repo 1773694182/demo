@@ -103,6 +103,8 @@
                             <label>&nbsp;:</label>
                             <label th:text="${comment.content}"></label>
                             <button type="button" th:onclick="getCommentFrom([[${comment.comment_id}]])"><label>回复</label></button>
+                            <button th:if="${mine}" shiro:hasAnyPermission="DeleteAllComment,DeleteComment" type="button" th:onclick="DeleteComment([[${comment.comment_id}]])"><label>删除</label></button>
+                            <button type="button" th:onclick="ReportComment([[${comment.comment_id}]])"><label>举报</label></button>
                         </div>
                     </form>
                     <div th:each="replaylist:${commentlist.replay}">
@@ -120,6 +122,8 @@
                                         <label>&nbsp;:</label>
                                         <span th:text="${replay.content}"></span>
                                         <button type="button" th:onclick="getReplayFrom([[${replay.replay_id}]])"><label>回复</label></button>
+                                        <button th:if="${mine}" shiro:hasAnyPermission="DeleteAllComment,DeleteComment" type="button" th:onclick="DeleteReplay([[${replay.replay_id}]])"><label>删除</label></button>
+                                        <button type="button" th:onclick="ReportReplay([[${replay.replay_id}]])"><label>举报</label></button>
                                     </div>
 <!--                                </div>-->
                             </form>

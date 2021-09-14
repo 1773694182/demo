@@ -18,4 +18,5 @@ public class Comment {
     private Timestamp date;
     private int state;
     private String user_name;
+    private boolean Read;
 }

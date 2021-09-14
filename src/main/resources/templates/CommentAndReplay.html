@@ -4,9 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/BrowseBlogFun.js}"></script>
+    <script th:src="@{/js/CommentAndReplayFun.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/CommentAndReplayFun.css}">
 </head>
 <body>
-<div shiro:hasPermission="DeleteAllUser">删除</div>
+    <button onclick="choose(0)">我的回复</button>
+    <button onclick="choose(1)">我的评论</button>
+    <button>我的评论</button>
+<div id="replay" style="display: none">
+    <div th:each="list:${listreplay}">
+        <div class="comment" th:id="'replay'+${list.myreplay_id}">
+<!--           <div th:text="${list.blog_id}"></div>-->
+           <div class="blog_title" th:text="'原博客：'+${list.blog_title}"></div>
+           <div class="blog_title" th:text="'回复的消息：'+${list.replaycontent}"></div>
+            <div class="myreplay">
+                <span th:text="${list.myreplay}"></span>
+                <a th:href="@{/GetBlogByID?blog_id={ID}&operation=view(ID=${list.blog_id})}">查看详情</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="comment" style="display: none">
+    <div th:each="list:${listcomment}">
+        <div class="comment" th:id="'comment'+${list.comment_id}">
+<!--           <div th:text="${list.blog_id}"></div>-->
+            <div class="blog_title" th:text="'原博客：'+${list.blog_title}"></div>
+            <div class="myreplay">
+                <span th:text="${list.mycomment}"></span>
+                <a th:href="@{/GetBlogByID?blog_id={ID}&operation=view(ID=${list.blog_id})}">查看详情</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

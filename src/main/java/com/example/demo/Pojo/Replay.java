@@ -20,4 +20,5 @@ public class Replay {
     private String user_name;
     private int to_user_id;
     private String to_user_name;
+    private boolean Read;
 }

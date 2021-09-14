@@ -34,7 +34,7 @@ h2{
     margin-top: 20px;
 }
 .blog_button{
-    background-color: white;
+    background: none;
     border: none;
 }
 .blog_button:hover{
@@ -43,7 +43,8 @@ h2{
 .user_button{
     float: left;
     border: none;
-    background-color: white;
+    background: none;
+    /*background-color: white;*/
     /*margin-top: 30px;*/
     /*margin-right: 15px;*/
 }

@@ -9,6 +9,7 @@ import com.example.demo.Service.Impl.SearchServiceImpl;
 import com.example.demo.Service.Impl.UserServiceImpl;
 
 import com.example.demo.Service.RedisService;
+import com.example.demo.Service.WebSocketTestService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class BlogController {
     private SearchServiceImpl searchService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private WebSocketTestService webSocketTestService;
 
 //添加
     @ResponseBody
@@ -116,16 +119,27 @@ public class BlogController {
 
 
 //删除
+    @ResponseBody
+    @RequestMapping("/ReportComment")
+    public void ReportComment(@RequestParam("comment_id")int comment_id){
+        blogService.ReportComment(comment_id);
+    }
+    @ResponseBody
+    @RequestMapping("/ReportReplay")
+    public void ReportReplay(@RequestParam("replay_id")int replay_id){
+        blogService.ReportReplay(replay_id);
+    }
+    @ResponseBody
     @RequestMapping("/DeleteBlog")
     public void deleteBlog(@RequestParam("blog_id")int blog_id){
         blogService.deleteBlog(blog_id);
     }
-
+    @ResponseBody
     @RequestMapping("DeleteComment")
     public void deleteComment(@RequestParam("comment_id")int comment_id){
         blogService.deleteComment(comment_id);
     }
-
+    @ResponseBody
     @RequestMapping("DeleteReplay")
     public void deleteReplay(@RequestParam("replay_id")int replay_id){
         blogService.deleteReplay(replay_id);
@@ -209,10 +223,13 @@ public class BlogController {
     }
 
     @RequestMapping("/GetBlogByID")
-    public String GetBlogByID(@RequestParam("blog_id")int blog_id,@RequestParam("operation")String operation, Model model){
+    public String GetBlogByID(@CookieValue("account")int user_id,@RequestParam("blog_id")int blog_id,@RequestParam("operation")String operation, Model model){
 //        System.out.println(blog_id);
         Blog blog=blogService.getBlogByID(blog_id);
 //        System.out.println(blog);
+        if (user_id==blog.getUser_id())
+            model.addAttribute("mine",true);
+        else model.addAttribute("mine",false);
         List<Comment> comment=blogService.getComment(blog_id);
         List<Map<String,List>>replay_list=blogService.Conformity_comment(comment);
         model.addAttribute("blog_info",blog);
@@ -244,5 +261,13 @@ public class BlogController {
         model.addAttribute("DeleteBlog",blogService.getDeleteBlogByUser(Integer.parseInt(user_id)));
 //        System.out.println(blogService.getDeleteBlogByUser(Integer.parseInt(user_id)));
         return "Delete";
+    }
+    @RequestMapping("/GetReplayAndComment")
+    public String GetReplayAndComment(@CookieValue("account")int user_id,Model model){
+        model.addAttribute("listcomment",blogService.getCommentByUser(user_id));
+        model.addAttribute("listreplay",blogService.getReplayByUser(user_id));
+//        System.out.println("comment:"+blogService.getCommentByUser(user_id));
+//        System.out.println("replay:"+blogService.getReplayByUser(user_id));
+        return "CommentAndReplay";
     }
 }

@@ -28,6 +28,7 @@ public class MVCConfig implements WebMvcConfigurer {
         registry.addViewController("/chat").setViewName("chat");
         registry.addViewController("/OtherUserIndex").setViewName("OtherUserIndex");
         registry.addViewController("/UpdateBlog").setViewName("UpdateBlog");
+        registry.addViewController("/CommentAndReplay").setViewName("CommentAndReplay");
 
 //        registry.addViewController("FilterHtml/Group").setViewName("FilterHtml/Group");
 

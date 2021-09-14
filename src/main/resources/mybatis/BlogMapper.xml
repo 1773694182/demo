@@ -22,7 +22,14 @@
         insert into replay_table(replay_id,comment_id,user_id,content,date,state,to_user_id)
         values (#{replay_id},#{comment_id},#{user_id},#{content},#{date},#{state},#{to_user_id});
     </insert>
-
+<!--举报评论-->
+    <update id="ReportComment" parameterType="com.example.demo.Pojo.Comment">
+        update comment_table set state=-2 where comment_id=#{comment_id};
+    </update>
+<!--举报回复-->
+    <update id="ReportReplay" parameterType="com.example.demo.Pojo.Replay">
+        update replay_table set state=-2 where replay_id=#{replay_id};
+    </update>
 <!--    删除博客-->
     <update id="deleteBlog" parameterType="com.example.demo.Pojo.Blog">
         update blog set state =-1 where blog_id=#{blog_id};
@@ -112,13 +119,27 @@
 
 <!--    查询博客的评论信息-->
     <select id="getComment" resultType="com.example.demo.Pojo.Comment">
-        select * from comment_table where blog_id=#{blog_id};
+        select * from comment_table where blog_id=#{blog_id} and state=0;
     </select>
 
 <!--    查询评论的回复信息-->
     <select id="getReplay" resultType="com.example.demo.Pojo.Replay">
-        select * from replay_table where comment_id=#{comment_id};
+        select * from replay_table where comment_id=#{comment_id} and state=0;
     </select>
+    <!--    查询博客的评论信息-->
+    <select id="getCommentByUser" resultType="com.example.demo.Pojo.Comment">
+        select * from comment_table where user_id=#{user_id} and state=0  order by date desc;
+    </select>
+    <!--    查询博客的评论信息-->
+    <select id="getCommentByID" resultType="com.example.demo.Pojo.Comment">
+        select * from comment_table where comment_id=#{comment_id} and state=0;
+    </select>
+
+<!--    查询评论的回复信息-->
+    <select id="getReplayByUser" resultType="com.example.demo.Pojo.Replay">
+        select * from replay_table where user_id=#{user_id} and state=0 order by date desc;
+    </select>
+
 <!--    查询点赞数-->
     <select id="getLikeNumber" resultType="Integer">
         select like_number from blog where blog_id=#{blog_id};

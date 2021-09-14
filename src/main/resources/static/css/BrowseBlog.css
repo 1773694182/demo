@@ -69,13 +69,13 @@
     text-decoration: none;
 }
 .comment button{
-    background-color: white;
+    background: none;
     border: none;
     color: blue;
     font-size: 15px;
 }
 .comment-blog button{
-    background-color: white;
+    background: none;
     border: none;
     color: blue;
     font-size: 15px;

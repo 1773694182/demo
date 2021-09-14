@@ -36,3 +36,43 @@ function collection() {
         }
     })
 }
+function DeleteComment(comment_id) {
+    $.ajax({
+        url:"/DeleteComment",
+        type:"post",
+        data:{"comment_id":comment_id},
+        success:function (){
+            layer.msg("删除成功")
+        }
+    })
+}
+function DeleteReplay(replay_id) {
+    $.ajax({
+        url:"/DeleteReplay",
+        type:"post",
+        data:{"replay_id":replay_id},
+        success:function (){
+            layer.msg("删除成功")
+        }
+    })
+}
+function ReportComment(comment_id) {
+    $.ajax({
+        url:"/ReportComment",
+        type:"post",
+        data:{"comment_id":comment_id},
+        success:function (){
+            layer.msg("举报成功")
+        }
+    })
+}
+function ReportReplay(replay_id) {
+    $.ajax({
+        url:"/ReportReplay",
+        type:"post",
+        data:{"replay_id":replay_id},
+        success:function (){
+            layer.msg("举报成功")
+        }
+    })
+}

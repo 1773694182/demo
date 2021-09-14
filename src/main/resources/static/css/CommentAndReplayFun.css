@@ -1,0 +1,16 @@
+body{
+    background: url(/image/bg.jpg) no-repeat;
+    background-size: cover;
+}
+.blog_title {
+    background-color: gainsboro;
+}
+.myreplay{
+    background-color: white;
+}
+.comment{
+    margin-top: 10px;
+    margin-left: 30%;
+    width: 35%;
+    border: 1px solid grey;
+}

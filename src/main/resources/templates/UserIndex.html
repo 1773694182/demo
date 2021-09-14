@@ -16,6 +16,7 @@
 </head>
 <body>
   <div th:replace="~{common::user_fun}"></div>
+  <a th:href="@{/GetReplayAndComment}">评论和回复</a>
   <div class="info">
     <div class="portrait"><span><img th:src="@{/image/头像.jpg}" style="border-radius:50%"  width="130.8px" height="84.8px"></span></div>
     <div class="portrait"><span th:text="${user_info.name}">昵称</span></div>
