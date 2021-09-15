@@ -31,6 +31,7 @@
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
                     <div class="user_fun">
+                        <a shiro:hasPermission="Examine" th:href="@{/GetExamineBlog}">审核列表</a>
                         <a th:href="@{/GetDraftBlog}">草稿箱</a>
                         <a th:href="@{/GetDeleteBlog}">回收站</a>
                         <a th:href="@{/GetFriendsList}">新消息(<span id="NewMessage">0</span>)</a>

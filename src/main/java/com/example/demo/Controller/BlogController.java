@@ -147,6 +147,36 @@ public class BlogController {
 
 //修改
     @ResponseBody
+    @RequestMapping("/ExamineBlogSuccess")
+    public void ExamineBlogSuccess(@RequestParam("blog_id")int blog_id){
+        blogService.ExamineBlogSuccess(blog_id);
+    }
+    @ResponseBody
+    @RequestMapping("/ExamineBlogFailed")
+    public void ExamineBlogFailed(@RequestParam("blog_id")int blog_id){
+        blogService.ExamineBlogFailed(blog_id);
+    }
+    @ResponseBody
+    @RequestMapping("/ExamineCommentSuccess")
+    public void ExamineCommentSuccess(@RequestParam("comment_id")int comment_id){
+        blogService.ExamineCommentSuccess(comment_id);
+    }
+    @ResponseBody
+    @RequestMapping("/ExamineCommentFailed")
+    public void ExamineCommentFailed(@RequestParam("comment_id")int comment_id){
+        blogService.ExamineCommentFailed(comment_id);
+    }
+    @ResponseBody
+    @RequestMapping("/ExamineReplaySuccess")
+    public void ExamineReplaySuccess(@RequestParam("replay_id")int replay_id){
+        blogService.ExamineReplaySuccess(replay_id);
+    }
+    @ResponseBody
+    @RequestMapping("/ExamineReplayFailed")
+    public void ExamineReplayFailed(@RequestParam("replay_id")int replay_id){
+        blogService.ExamineReplayFailed(replay_id);
+    }
+    @ResponseBody
     @RequestMapping("UpdateBlogUpdateBlog")
     public void updateBlog(@RequestBody List<Map<String,Object>>map){
         blogService.updateBlog(map);
@@ -220,6 +250,22 @@ public class BlogController {
         Blog blog=blogService.getBlogByID(blog_id);
         model.addAttribute("blog",blog);
         return "UpdateBlog";
+    }
+    @RequestMapping("/GetExamineBlog")
+    public String GetExamineBlog(Model model){
+        model.addAttribute("blog",blogService.GetExamineBlog());
+        model.addAttribute("comment",blogService.getExamineComment());
+        model.addAttribute("replay",blogService.getExamineReplay());
+        System.out.println(blogService.GetExamineBlog());
+        return "ExamineList";
+    }
+    @RequestMapping("/GetExamineBlogByID")
+    public String GetExamineBlogByID(@RequestParam("blog_id")int blog_id,Model model){
+        Blog blog=blogService.GetExamineBlogByID(blog_id);
+        System.out.println(blog);
+        model.addAttribute("blog_info",blog);
+        model.addAttribute("user_info",userService.getUserInfo(blog.getUser_id()));
+        return "ExamineBlog";
     }
 
     @RequestMapping("/GetBlogByID")

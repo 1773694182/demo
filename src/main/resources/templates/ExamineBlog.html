@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/ExanineBlog.js}"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/Common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/BrowseBlog.css}">
+</head>
+<body>
+<div class="blog_info2" th:each="blog:${blog_info}">
+    <div class="info">
+        <h1 th:text="${blog.title}">title</h1>
+        <!--                文章信息-->
+        <div class="blog_intro">
+            <div class="blog_user number"><a th:href="@{/GetUserInfoByID?user_id={ID}(ID=${user_info.user_id})}"><span th:text="${user_info.name}"></span></a></div>
+            <div class="blog_date number"><span>发布日期:</span><span id="date" th:text="${blog.date}"></span></div>
+            <div class="view number"><span>浏览数:</span><span id="view_number" th:text="${blog.view_number}"></span></div>
+            <div class="like number"><span>点赞数:</span><span id="like_number" th:text="${blog.like_number}"></span></div>
+            <div class="collection number"><span>收藏数:</span><span id="collection_number" th:text="${blog.collection_number}"></span></div>
+        </div>
+        <!--            标签、分类-->
+        <div class="blog_intro">
+            <div class="sort"><span>分类:</span><span th:text="${blog.classification}"></span></div>
+            <div class="sort"><span>标签:</span><span th:text="${blog.label}"></span></div>
+        </div>
+    </div>
+
+    <div>
+        <span th:utext="${blog.content}"></span>
+    </div>
+    <button th:onclick="ExamineBlogSuccess([[${blog.blog_id}]])">审核通过</button>
+    <button th:onclick="ExamineBlogFailed([[${blog.blog_id}]])">审核不通过</button>
+</div>
+</body>
+</html>

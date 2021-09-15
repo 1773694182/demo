@@ -20,6 +20,16 @@
     padding-left: 10px;
     padding-bottom: 20px;
 }
+.blog_info2{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 30%;
+    margin-top: 10%;
+    width: 50%;
+    border: solid 1px #a2a2a2;
+    padding-left: 10px;
+    padding-bottom: 20px;
+}
 .blog_intro{
     width: 100%;
 }

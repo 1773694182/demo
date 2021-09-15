@@ -19,4 +19,5 @@ public class Comment {
     private int state;
     private String user_name;
     private boolean Read;
+
 }

@@ -58,6 +58,7 @@ public class BlogServiceImpl implements BlogService {
             blog.setView_number(0);
             blog.setDate(date1);
             blog.setComment_number(0);
+            blog.setState(0);
 //        }
         blogMapper.postBlog(blog);
     }
@@ -82,7 +83,8 @@ public class BlogServiceImpl implements BlogService {
         Timestamp date1=new Timestamp(date.getTime());
         comment.setUser_name(userMapper.getUserInfo(comment.getUser_id()).getName());
         comment.setDate(date1);
-        comment.setState(0);
+        comment.setState(1);
+        comment.setRead(false);
 //        System.out.println(comment);
         blogMapper.postComment(comment);
         return comment;
@@ -112,7 +114,8 @@ public class BlogServiceImpl implements BlogService {
         replay.setUser_name(userMapper.getUserInfo(replay.getUser_id()).getName());
         replay.setTo_user_name(userMapper.getUserInfo(replay.getTo_user_id()).getName());
         replay.setDate(date1);
-        replay.setState(0);
+        replay.setState(1);
+        replay.setRead(false);
         blogMapper.postReplay(replay);
         return replay;
     }
@@ -138,8 +141,61 @@ public class BlogServiceImpl implements BlogService {
             map.put("blog_id",comment.getBlog_id());
             map.put("mycomment",comment.getContent());
             list.add(map);
+            if (!comment.isRead())
+                blogMapper.ReadComment(comment.getComment_id());
         }
         return list;
+    }
+
+    @Override
+    public List<Comment> getExamineComment() {
+        return blogMapper.getExamineComment();
+    }
+
+    @Override
+    public List<Replay> getExamineReplay() {
+        return blogMapper.getExamineReplay();
+    }
+
+    @Override
+    public Blog GetExamineBlogByID(int blog_id) {
+        return blogMapper.getExamineBlogByID(blog_id);
+
+    }
+
+    @Override
+    public List<Blog> GetExamineBlog() {
+        return blogMapper.GetExamineBlog();
+    }
+
+    @Override
+    public void ExamineBlogSuccess(int blog_id) {
+        blogMapper.ExamineBlogSuccess(blog_id);
+    }
+
+    @Override
+    public void ExamineBlogFailed(int blog_id) {
+        blogMapper.ExamineBlogFailed(blog_id);
+    }
+
+    @Override
+    public void ExamineCommentSuccess(int comment_id) {
+        blogMapper.ExamineCommentSuccess(comment_id);
+    }
+
+    @Override
+    public void ExamineCommentFailed(int comment_id) {
+        blogMapper.ExamineCommentFailed(comment_id);
+    }
+
+    @Override
+    public void ExamineReplaySuccess(int replay_id) {
+        blogMapper.ExamineReplaySuccess(replay_id);
+    }
+
+    @Override
+    public void ExamineReplayFailed(int replay_id) {
+        blogMapper.ExamineReplayFailed(replay_id);
     }
 
     @Override
@@ -158,6 +214,9 @@ public class BlogServiceImpl implements BlogService {
             map.put("myreplay",replay.getContent());
             map.put("myreplay_id",replay.getReplay_id());
             list.add(map);
+            if (!replay.isRead()){
+                blogMapper.ReadReplay(replay.getReplay_id());
+            }
         }
         return list;
     }

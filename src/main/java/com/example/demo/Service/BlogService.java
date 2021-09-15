@@ -29,6 +29,13 @@ public interface BlogService {
     void deleteReplay(int replay_id);
 
     //修改
+    //    审核
+    void ExamineBlogSuccess(int blog_id);
+    void ExamineBlogFailed(int blog_id);
+    void ExamineCommentSuccess(int comment_id);
+    void ExamineCommentFailed(int comment_id);
+    void ExamineReplaySuccess(int replay_id);
+    void ExamineReplayFailed(int replay_id);
 //修改博客内容
     void updateBlog(List<Map<String,Object>>list);
     //从草稿箱发布博客
@@ -44,14 +51,21 @@ public interface BlogService {
     //隐藏博客
     void CancelHideBlog(int blog_id);
     //查询
+    //    查询待审核的评论和回复
+    List<Comment> getExamineComment();
+    List<Replay> getExamineReplay();
 //查询所有博客
     List<Blog> getAllBlog();
+    //查询审核博客
+    List<Blog> GetExamineBlog();
     //查询博客通过分类
     List<Blog> getBlogByClassification(String classification);
     //查询博客通过分类
     List<Blog> getBlogByLabel(String label);
     //查询博客信息通过ID
     Blog getBlogByID(int blog_id);
+    //查询博客信息通过ID
+    Blog GetExamineBlogByID(int blog_id);
     //查询博客信息通过用户
     List<Blog> getBlogByUser(int user_id);
     //查询博客的评论信息

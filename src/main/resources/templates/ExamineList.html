@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery-3.6.0.js}"></script>
+    <script th:src="@{/js/ExanineBlog.js}"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/Common.css}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <link rel="stylesheet" th:href="@{/css/BrowseBlog.css}">
+</head>
+<body>
+<button onclick="choose(0)">博客</button>
+<button onclick="choose(1)">评论</button>
+<button onclick="choose(2)">回复</button>
+<div id="blog" style="display: block">
+    <div class="blog" th:each="bloglist:${blog}">
+      <form class="blog_all" th:action="@{/GetExamineBlogByID?blog_id={ID}(ID=${bloglist.blog_id})}" method="post">
+        <input name="blog_id" th:value="${bloglist.blog_id}" hidden="hidden">
+        <input name="operation" value="view" hidden="hidden">
+        <button class="blog_button"><h2 th:text="${bloglist.title}"></h2></button>
+        <div><span th:text="${bloglist.content}"></span></div>
+        <span th:text="${bloglist.date}"></span>
+      </form>
+    </div>
+</div>
+<div id="comment" style="display: none">
+    <div class="comment" th:each="commentlist:${comment}">
+        <div th:text="${commentlist.content}"></div>
+        <button th:onclick="ExamineCommentSuccess([[${commentlist.comment_id}]])">审核通过</button>
+        <button th:onclick="ExamineCommentFailed([[${commentlist.comment_id}]])">审核不通过</button>
+    </div>
+</div>
+<div id="replay" style="display: none">
+    <div class="replay" th:each="replaylist:${replay}">
+        <div th:text="${replaylist.content}"></div>
+        <button th:onclick="ExamineReplaySuccess([[${replaylist.replay_id}]])">审核通过</button>
+        <button th:onclick="ExamineReplayFailed([[${replaylist.replay_id}]])">审核不通过</button>
+    </div>
+</div>
+</body>
+</html>
